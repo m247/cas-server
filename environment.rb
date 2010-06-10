@@ -14,9 +14,9 @@ require 'yajl/json_gem'
 require 'haml'
 require 'ostruct'
 
-require 'sinatra' unless defined?(Sinatra)
+require 'application' unless defined?(CASServer)
 
-configure do
+CASServer.configure do
   SiteConfig = YAML.load_file("#{File.dirname(__FILE__)}/config.yml")
 
   # load models
