@@ -17,4 +17,5 @@ gem 'dm-sqlite-adapter', :require => nil
 group :test do
   gem 'rspec', :require => nil
   gem 'rack-test'
+  gem 'capybara'
 end
