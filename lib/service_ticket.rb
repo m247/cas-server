@@ -34,4 +34,14 @@ class ServiceTicket
   def service_matches?(s)
     self.class.sanitize_service_url(s) == service
   end
+  def url
+    [service, url_param].join(url_joiner)
+  end
+  protected
+    def url_param
+      'ticket=' + to_s
+    end
+    def url_joiner
+      service.index('?') ? '&' : '?'
+    end
 end

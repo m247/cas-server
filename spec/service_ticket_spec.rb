@@ -71,4 +71,17 @@ describe ServiceTicket do
       @st.service_matches?("http://testing.com").should be_false
     end
   end
+  describe ".url" do
+    before(:each) do
+      @st = ServiceTicket.new
+    end
+    it "should add query string if not present" do
+      @st.service = "http://test.com"
+      @st.url.should == "http://test.com?ticket=#{@st.name}"
+    end
+    it "should append to query string if present" do
+      @st.service = "http://test.com/?group=testing"
+      @st.url.should == "http://test.com/?group=testing&ticket=#{@st.name}"
+    end
+  end
 end
