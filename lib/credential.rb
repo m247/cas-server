@@ -6,6 +6,9 @@ module Credential
   def self.requestor(&block)
     Requestor.new(&block).call(@app)
   end
+  def self.acceptor(&block)
+    Acceptor.new(&block).call(@app)
+  end
 
   class Requestor
     def initialize(&blk)
@@ -54,6 +57,61 @@ module Credential
         return false if gateway?
 
         true
+      end
+  end
+
+  class Acceptor
+    def initialize(&blk)
+      instance_eval(&blk) if blk
+    end
+    def redirect(&blk)
+      @redirect = blk
+    end
+    def success(&blk)
+      @success = blk
+    end
+    def failure(&blk)
+      @failure = blk
+    end
+    def call(app)
+      @params = app.params
+
+      acct = if username_password_login? && LoginTicket.valid?(params['lt'])
+        app.authenticators.detect do |source|
+          r = source.authenticate(params['username'], params['password'], params['service'], app.request)
+          break r unless r.nil?
+        end
+      else
+        app.trust_authenticators.detect do |source|
+          r = source.authenticate(params['service'], app.request)
+          break r unless r.nil?
+        end
+      end
+
+      return @failure.call('Invalid Credentials') if acct.nil?
+      return @failure.call('Account "%s" is locked' % acct.username) if acct.locked?
+
+      app.ticket_granting_cookie = TicketGrantingCookie.create(:username => acct.username,
+        :extra => acct.extra)
+
+      if has_service?
+        st = ServiceTicket.create(:username => acct.username, :service => params['service'])
+        return @redirect.call(st.url, should_warn?)
+      end
+      return @success.call
+    end
+    private
+      def params
+        @params
+      end
+      def has_service?
+        !@params['service'].nil? && @params['service'] != ''
+      end
+      def should_warn?
+        @params['warn'] == '1'
+      end
+      def username_password_login?
+        @params['username'] && @params['password'] && @params['lt']
       end
   end
 end
