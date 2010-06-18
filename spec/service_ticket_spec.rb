@@ -1,4 +1,6 @@
 require 'spec_helper'
+require 'generic_ticket_spec'
+require 'expiring_ticket_spec'
 
 describe ServiceTicket do
   before(:each) do
@@ -41,6 +43,46 @@ describe ServiceTicket do
     end
     it "should require the username" do
       @st.errors.on(:username).should have_at_least(1).error
+    end
+  end
+  describe ".validate!" do
+    before(:each) do
+      @st = ServiceTicket.create(:username => 'testing', :service => 'http://test.com/')
+    end
+    describe "valid service ticket" do
+      before(:each) do
+        @vst = ServiceTicket.validate!(@st.name, 'http://test.com/', false)
+      end
+      it "should return Service Ticket when successful" do
+        @vst.should == @st
+      end
+      it "should expire Service Ticket when successful" do
+        @vst.should be_expired
+      end
+    end
+    describe "invalid service ticket" do
+      it "should raise 'INVALID_REQUEST' for blank ticket" do
+        lambda {
+          ServiceTicket.validate!('', 'http://test.com/', false)
+        }.should raise_exception(RuntimeError, 'INVALID_REQUEST')
+      end
+      it "should raise 'INVALID_TICKET' for non-service ticket" do
+        lambda {
+          ServiceTicket.validate!('LT-TESTING', 'http://test.com/', false)
+        }.should raise_exception(RuntimeError, 'INVALID_TICKET')
+      end
+      it "should raise 'INVALID_TICKET' for non-existing ticket" do
+        lambda {
+          ServiceTicket.validate!('ST-TESTING', 'http://test.com/', false)
+        }.should raise_exception(RuntimeError, 'INVALID_TICKET')
+      end
+    end
+    describe "invalid service url" do
+      it "should raise 'INVALID_SERVICE' if service doesn't match ticket" do
+        lambda {
+          ServiceTicket.validate!(@st.name, 'http://testing.com/', false)
+        }.should raise_exception(RuntimeError, 'INVALID_SERVICE')
+      end
     end
   end
   describe "#service=" do
