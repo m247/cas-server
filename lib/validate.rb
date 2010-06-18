@@ -8,6 +8,9 @@ module Validate
   def self.service(&blk)
     Service.new(&blk).call(@app)
   end
+  def self.proxy(&blk)
+    Proxy.new(&blk).call(@app)
+  end
 
   class Plain
     def initialize(&blk)
@@ -48,20 +51,23 @@ module Validate
     def call(app)
       @params = app.params
       begin
-        st = ServiceTicket.validate!(app.params['ticket'], app.params['service'], renew?)
+        t = ticket_klass.validate!(app.params['ticket'], app.params['service'], renew?)
 
-        verify_proxy_callback(st) do |pgt, res|
+        verify_proxy_callback(t) do |pgt, res|
           if %w(200 202 301 302 304).include?(res.code)
             pgt.save
           end
         end
 
-        @success.call(st.username, st.proxy_granting_ticket)
+        @success.call(t.username, t.proxy_granting_ticket)
       rescue Exception => e
         @failure.call(e.message)
       end
     end
     protected
+      def ticket_klass
+        ServiceTicket
+      end
       def params
         @params
       end
@@ -94,6 +100,12 @@ module Validate
         rescue OpenSSL::SSL::SSLError
           return
         end
+      end
+  end
+  class Proxy < Service
+    protected
+      def ticket_klass
+        ProxyTicket
       end
   end
 end
