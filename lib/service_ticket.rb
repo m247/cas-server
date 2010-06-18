@@ -22,6 +22,19 @@ class ServiceTicket
         str.gsub(/&?#{field}=[^&]*/, '')
       end.gsub(/[\?&]$/, '').gsub(/\/$/, '').gsub('?&', '?').gsub(' ', '+')
     end
+    def validate!(ticket, service, renew) # TODO: Handle 'renew' case
+      raise 'INVALID_REQUEST' unless ticket && ticket != ''
+      raise 'INVALID_TICKET' unless valid_prefix?(ticket)
+
+      st = unexpired.first(:name => ticket)
+      raise 'INVALID_TICKET' if st.nil?
+
+      st.expire!
+
+      raise 'INVALID_SERVICE' unless st.service_matches?(service)
+
+      st
+    end
   end
 
   property :type, Discriminator
