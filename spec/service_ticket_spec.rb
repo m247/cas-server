@@ -71,7 +71,7 @@ describe ServiceTicket do
       @st.service_matches?("http://testing.com").should be_false
     end
   end
-  describe ".url" do
+  describe "#url" do
     before(:each) do
       @st = ServiceTicket.new
     end
