@@ -1,3 +1,5 @@
+require 'CGI'
+
 module Validate
   def self.app(app)
     @app = app
@@ -53,10 +55,8 @@ module Validate
       begin
         t = ticket_klass.validate!(app.params['ticket'], app.params['service'], renew?)
 
-        verify_proxy_callback(t) do |pgt, res|
-          if %w(200 202 301 302 304).include?(res.code)
-            pgt.save
-          end
+        verify_proxy_callback(t, app.options.ca_file) do |res|
+          %w(200 202 301 302 304).include?(res.code)
         end
 
         @success.call(t.username, t.proxy_granting_ticket)
@@ -76,29 +76,35 @@ module Validate
       end
       # TODO: Check the code down here
       def proxy_granting_ticket(service_ticket)
-        ProxyGrantingTicket.new(:service_ticket => service_ticket,
-          :iou => ProxyGrantingTicketIOU.new)
+        service_ticket.proxy_granting_ticket = ProxyGrantingTicket.create
       end
       def proxy_callback?
         params['pgtUrl'] && params['pgtUrl'] =~ %r{^https://}
       end
-      def verify_proxy_callback(service_ticket)
+      def verify_proxy_callback(service_ticket, ca_file, &blk)
         return unless proxy_callback?
+
+        pgt = proxy_granting_ticket(service_ticket)
+        uri = URI.parse(params['pgtUrl'])
+        https = Net::HTTP.new(uri.host, uri.port)
+        https.use_ssl = true
+        https.ca_file = ca_file
+        https.verify_mode = OpenSSL::SSL::VERIFY_PEER
+
+        pgt_query_string = 'pgtId=%s&pgtIou=%s' % [ CGI.escape(pgt.name),
+          CGI.escape(pgt.proxy_granting_ticket_iou.name) ]
+        uri.query = uri.query ? (uri.query + '&' + pgt_query_string) : pgt_query_string
+
         begin
-          pgt = proxy_granting_ticket(service_ticket)
-          uri = URI.parse(params['pgtUrl'])
-          https = Net::HTTP.new(uri.host, uri.port)
-          https.use_ssl = true
-          https.ca_file = options.ca_file
-          https.verify_mode = OpenSSL::SSL::VERIFY_PEER
           https.start do
-            uri.query = uri.query ? uri.query + "&#{pgt.to_query_string}" : pgt.to_query_string
             https.request_get(uri.request_uri) do |res|
-              yield pgt, res
+              unless blk.call(res)
+                pgt.destroy!
+              end
             end
           end
         rescue OpenSSL::SSL::SSLError
-          return
+          pgt.destroy!
         end
       end
   end

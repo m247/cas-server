@@ -19,7 +19,10 @@ module Validate
     describe "#call" do
       before(:each) do
         @app = double('Sinatra::Base app')
+        @opt = double('Sinatra::Base app options')
         @app.stub(:params).and_return({})
+        @app.stub(:options).and_return(@opt)
+        @opt.stub(:ca_file).and_return('')
       end
       describe "invalid service ticket" do
         it "should return failure" do
