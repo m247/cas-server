@@ -53,6 +53,12 @@ class ServiceTicket
   def url
     [service, url_param].join(url_joiner)
   end
+  def granted_by_cookie?
+    ! self.granted_by_cookie.nil?
+  end
+  def granted_by_credentials?
+    ! granted_by_cookie?
+  end
   protected
     def url_param
       'ticket=' + to_s
