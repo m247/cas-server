@@ -23,16 +23,16 @@ class ServiceTicket
       end.gsub(/[\?&]$/, '').gsub(/\/$/, '').gsub('?&', '?').gsub(' ', '+')
     end
     def validate!(ticket, service, renew)
-      raise 'INVALID_REQUEST' unless ticket && ticket != ''
-      raise 'INVALID_TICKET' unless valid_prefix?(ticket)
+      raise CASError, 'INVALID_REQUEST' unless ticket && ticket != ''
+      raise CASError, 'INVALID_TICKET' unless valid_prefix?(ticket)
 
       st = unexpired.first(:name => ticket)
-      raise 'INVALID_TICKET' if st.nil?
+      raise CASError, 'INVALID_TICKET' if st.nil?
 
       st.expire!
 
-      raise 'INVALID_SERVICE' unless st.service_matches?(service)
-      raise 'INVALID_TICKET' if renew && st.granted_by_cookie?
+      raise CASError, 'INVALID_SERVICE' unless st.service_matches?(service)
+      raise CASError, 'INVALID_TICKET' if renew && st.granted_by_cookie?
 
       st
     end

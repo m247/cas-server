@@ -60,8 +60,10 @@ module Validate
         end
 
         @success.call(t.username, t.proxy_granting_ticket)
-      rescue Exception => e
+      rescue CASError => e
         @failure.call(e.message)
+      rescue Exception
+        @failure.call('INTERNAL_ERROR')
       end
     end
     protected
