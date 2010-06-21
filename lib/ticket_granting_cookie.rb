@@ -13,4 +13,6 @@ class TicketGrantingCookie
 
   property :username, String, :required => true
   property :extra, Json, :lazy => true
+
+  has n, :granted_tickets, :model => 'ServiceTicket', :child_key => ['granted_by_cookie_name']
 end

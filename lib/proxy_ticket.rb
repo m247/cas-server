@@ -23,4 +23,6 @@ class ProxyTicket < ServiceTicket
       super + superclass.expired
     end
   end
+
+  belongs_to :granted_by_ticket, :model => 'ProxyGrantingTicket', :required => false
 end

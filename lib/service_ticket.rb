@@ -42,6 +42,7 @@ class ServiceTicket
   property :username, String, :length => 255, :required => true
 
   has 1, :proxy_granting_ticket
+  belongs_to :granted_by_cookie, :model => 'TicketGrantingCookie', :required => false
 
   def service=(v)
     attribute_set(:service, self.class.sanitize_service_url(v))
