@@ -12,4 +12,7 @@ class ProxyGrantingTicketIou
   def self.prefix
     'PGTIOU-'
   end
+
+  # Required is false as otherwise the ProxyGrantingTicket after :save fails
+  belongs_to :proxy_granting_ticket, :required => false
 end

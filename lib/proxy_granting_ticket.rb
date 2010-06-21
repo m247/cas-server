@@ -13,5 +13,11 @@ class ProxyGrantingTicket
   def self.prefix
     'PGT-'
   end
-  
+
+  has 1, :proxy_granting_ticket_iou
+
+  after :save, :create_proxy_granting_ticket_iou
+  def create_proxy_granting_ticket_iou
+    self.proxy_granting_ticket_iou = ProxyGrantingTicketIou.create
+  end
 end
