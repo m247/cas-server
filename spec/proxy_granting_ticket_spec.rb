@@ -19,11 +19,22 @@ describe ProxyGrantingTicket do
       @pgt = ProxyGrantingTicket.new
       @pgt.save
     end
-    it "should not be nil after ProxyGrantingTicket#save" do
-      @pgt.proxy_granting_ticket_iou.should_not be_nil
+    describe "after ProxyGrantingTicket#save" do
+      it "should not be nil" do
+        @pgt.proxy_granting_ticket_iou.should_not be_nil
+      end
+      it "should be saved" do
+        @pgt.proxy_granting_ticket_iou.should be_saved
+      end
     end
-    it "should be saved after ProxyGrantingTicket#save" do
-      @pgt.proxy_granting_ticket_iou.should be_saved
+    describe "after ProxyGrantingTicket#destroy" do
+      before(:each) do
+        @name = @pgt.proxy_granting_ticket_iou.name
+        @pgt.destroy!
+      end
+      it "should not exist" do
+        ProxyGrantingTicketIou.get(@name).should be_nil
+      end
     end
   end
 end

@@ -16,8 +16,14 @@ class ProxyGrantingTicket
 
   has 1, :proxy_granting_ticket_iou
 
-  after :save, :create_proxy_granting_ticket_iou
-  def create_proxy_granting_ticket_iou
-    self.proxy_granting_ticket_iou = ProxyGrantingTicketIou.create
-  end
+  after :save,      :create_iou
+  before :destroy!, :destroy_iou
+
+  private
+    def create_iou
+      self.proxy_granting_ticket_iou = ProxyGrantingTicketIou.create
+    end
+    def destroy_iou
+      self.proxy_granting_ticket_iou.destroy!
+    end
 end
