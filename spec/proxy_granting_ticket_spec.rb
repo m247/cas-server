@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'generic_ticket_spec'
 
 describe ProxyGrantingTicket do
   before(:each) do
