@@ -41,6 +41,8 @@ class ServiceTicket
   property :service, String, :length => 255, :required => true
   property :username, String, :length => 255, :required => true
 
+  has 1, :proxy_granting_ticket
+
   def service=(v)
     attribute_set(:service, self.class.sanitize_service_url(v))
   end

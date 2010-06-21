@@ -14,6 +14,7 @@ class ProxyGrantingTicket
     'PGT-'
   end
 
+  belongs_to :service_ticket, :required => false
   has 1, :proxy_granting_ticket_iou
 
   after :save,      :create_iou
