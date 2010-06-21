@@ -84,6 +84,21 @@ describe ServiceTicket do
         }.should raise_exception(RuntimeError, 'INVALID_SERVICE')
       end
     end
+    describe "cookie granted service ticket" do
+      before(:each) do
+        @tgc = TicketGrantingCookie.create(:username => 'test')
+        @st.granted_by_cookie = @tgc
+        @st.save
+      end
+      it "should raise 'INVALID_TICKET' when renew is true" do
+        lambda {
+          ServiceTicket.validate!(@st.name, 'http://test.com/', true)
+        }.should raise_exception(RuntimeError, 'INVALID_TICKET')
+      end
+      it "should return ServiceTicket when renew is false" do
+        ServiceTicket.validate!(@st.name, 'http://test.com/', false).should == @st
+      end
+    end
   end
   describe "#service=" do
     before(:each) do

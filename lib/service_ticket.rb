@@ -22,7 +22,7 @@ class ServiceTicket
         str.gsub(/&?#{field}=[^&]*/, '')
       end.gsub(/[\?&]$/, '').gsub(/\/$/, '').gsub('?&', '?').gsub(' ', '+')
     end
-    def validate!(ticket, service, renew) # TODO: Handle 'renew' case
+    def validate!(ticket, service, renew)
       raise 'INVALID_REQUEST' unless ticket && ticket != ''
       raise 'INVALID_TICKET' unless valid_prefix?(ticket)
 
@@ -32,6 +32,7 @@ class ServiceTicket
       st.expire!
 
       raise 'INVALID_SERVICE' unless st.service_matches?(service)
+      raise 'INVALID_TICKET' if renew && st.granted_by_cookie?
 
       st
     end
