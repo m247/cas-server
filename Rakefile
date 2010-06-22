@@ -9,7 +9,7 @@ else
   desc "Run all examples"
   Spec::Rake::SpecTask.new('spec') do |t|
     t.spec_files = FileList['spec/**/*.rb']
-    t.spec_opts = ['-cfn']
+    t.spec_opts = ['-cfp']
   end
 end
 
