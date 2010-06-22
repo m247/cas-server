@@ -13,6 +13,10 @@ class ProxyGrantingTicket
   def self.prefix
     'PGT-'
   end
+  def self.validate!(ticket)
+    return nil unless valid_prefix?(ticket)
+    first(:name => ticket)
+  end
 
   belongs_to :service_ticket, :required => false
   has 1, :proxy_granting_ticket_iou
