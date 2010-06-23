@@ -7,7 +7,6 @@
 #  - Tickets must be prefixed with ST- or PT-
 #  - Ticket length should be min 32 characters, ideally 256 characters
 
-require 'service_ticket'
 class ProxyTicket < ServiceTicket
   class << self
     def prefix
