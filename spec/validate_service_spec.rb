@@ -3,9 +3,9 @@ require 'spec_helper'
 module Validate
   describe Service do
     before(:each) do
-      @service = Service.new do
-        success { 'success' }
-        failure { 'failure' }
+      @service = Service.new do |s|
+        s.success { 'success' }
+        s.failure { 'failure' }
       end
     end
     describe ".new" do

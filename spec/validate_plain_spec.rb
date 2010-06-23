@@ -3,9 +3,9 @@ require 'spec_helper'
 module Validate
   describe Plain do
     before(:each) do
-      @plain = Plain.new do
-        success { 'success' }
-        failure { 'failure' }
+      @plain = Plain.new do |p|
+        p.success { 'success' }
+        p.failure { 'failure' }
       end
     end
     describe ".new" do

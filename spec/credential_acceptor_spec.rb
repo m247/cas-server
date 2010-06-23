@@ -3,10 +3,10 @@ require 'spec_helper'
 module Credential
   describe Acceptor do
     before(:each) do
-      @acceptor = Acceptor.new do
-        redirect { "redirect" }
-        success  { "success" }
-        failure  { |msg| msg }
+      @acceptor = Acceptor.new do |a|
+        a.redirect { "redirect" }
+        a.success  { "success" }
+        a.failure  { |msg| msg }
       end
     end
     describe ".new" do

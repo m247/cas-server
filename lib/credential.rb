@@ -1,6 +1,7 @@
 module Credential
   def self.app(app)
     @app = app
+    self
   end
 
   def self.requestor(&block)
@@ -12,7 +13,7 @@ module Credential
 
   class Requestor
     def initialize(&blk)
-      instance_eval(&blk) if blk
+      blk.call(self) if blk
     end
     def login(&blk) # :yield: login_ticket
       @login = blk
@@ -26,7 +27,7 @@ module Credential
     def call(app)
       @params = app.params
       if show_login_form?(app.logged_in?)
-        return @login.call(LoginTicket.create)
+        return @login.call(LoginTicket.create)  # BUG: Called in the scope of this class, not the Sinatra action
       else
         if gateway?
           return @gateway.call(service_ticket.url, warn?) if app.logged_in? # TODO: Fix service_ticket.url
@@ -62,7 +63,7 @@ module Credential
 
   class Acceptor
     def initialize(&blk)
-      instance_eval(&blk) if blk
+      blk.call(self) if blk
     end
     def redirect(&blk)
       @redirect = blk

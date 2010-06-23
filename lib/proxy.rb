@@ -1,13 +1,14 @@
 module Proxy
   def self.app(app)
     @app = app
+    self
   end
   def self.grant(&blk)
     Grantor.new(&blk).call(@app)
   end
   class Grantor
     def initialize(&blk)
-      instance_eval(&blk) if blk
+      blk.call(self) if blk
     end
     def success(&blk)
       @success = blk

@@ -1,8 +1,9 @@
-require 'CGI'
+require 'cgi'
 
 module Validate
   def self.app(app)
     @app = app
+    self
   end
   def self.plain(&blk)
     Plain.new(&blk).call(@app)
@@ -16,7 +17,7 @@ module Validate
 
   class Plain
     def initialize(&blk)
-      instance_eval(&blk) if blk
+      blk.call(self) if blk
     end
 
     def success(&blk)
@@ -42,7 +43,7 @@ module Validate
   end
   class Service
     def initialize(&blk)
-      instance_eval(&blk) if blk
+      blk.call(self) if blk
     end
     def success(&blk)
       @success = blk

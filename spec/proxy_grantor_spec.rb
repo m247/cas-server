@@ -3,9 +3,9 @@ require 'spec_helper'
 module Proxy
   describe Grantor do
     before(:each) do
-      @grantor = Grantor.new do
-        success { 'success' }
-        failure { |msg| msg }
+      @grantor = Grantor.new do |g|
+        g.success { 'success' }
+        g.failure { |msg| msg }
       end
     end
     describe ".new" do

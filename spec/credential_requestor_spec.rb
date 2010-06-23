@@ -3,10 +3,10 @@ require 'spec_helper'
 module Credential
   describe Requestor do
     before(:each) do
-      @requestor = Requestor.new do
-        login { "login" }
-        gateway { "gateway" }
-        logged_in { "logged_in" }
+      @requestor = Requestor.new do |r|
+        r.login { "login" }
+        r.gateway { "gateway" }
+        r.logged_in { "logged_in" }
       end
     end
     describe ".new" do

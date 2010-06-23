@@ -3,9 +3,9 @@ require 'spec_helper'
 module Validate
   describe Proxy do
     before(:each) do
-      @proxy = Proxy.new do
-        success { 'success' }
-        failure { 'failure' }
+      @proxy = Proxy.new do |p|
+        p.success { 'success' }
+        p.failure { 'failure' }
       end
     end
     describe ".new" do
