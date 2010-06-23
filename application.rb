@@ -10,7 +10,9 @@ class CASServer < Sinatra::Base
 
     # load models
     $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
-    Dir.glob("#{File.dirname(__FILE__)}/lib/*.rb") { |lib| require File.basename(lib, '.*') }
+    $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib/models")
+    $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib/handlers")
+    Dir.glob("#{File.dirname(__FILE__)}/lib/**/*.rb") { |lib| require File.basename(lib, '.*') }
 
     # $adapter://$username:$password@$hostname/$database
     DataMapper.setup(:default, (ENV["DATABASE_URL"] ||
