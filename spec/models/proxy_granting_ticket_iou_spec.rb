@@ -1,15 +1,17 @@
-require 'spec_helper'
+require File.expand_path('../../spec_helper', __FILE__)
 
-describe ProxyGrantingTicketIou do
-  before(:each) do
-    @klass = ProxyGrantingTicketIou
-  end
-
-  describe ".prefix" do
-    it "should be PGTIOU-" do
-      ProxyGrantingTicketIou.prefix.should == 'PGTIOU-'
+module CASServer
+  describe ProxyGrantingTicketIou do
+    before(:each) do
+      @klass = ProxyGrantingTicketIou
     end
-  end
 
-  it_should_behave_like "GenericTicket"
+    describe ".prefix" do
+      it "should be PGTIOU-" do
+        ProxyGrantingTicketIou.prefix.should == 'PGTIOU-'
+      end
+    end
+
+    it_should_behave_like "GenericTicket"
+  end
 end

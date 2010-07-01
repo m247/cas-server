@@ -13,7 +13,7 @@ Sinatra::Base.set :run, false
 Sinatra::Base.set :raise_errors, true
 Sinatra::Base.set :logging, false
 
-require 'application'
+require File.expand_path('../../config/environment', __FILE__)
 
 # establish in-memory database for testing
 DataMapper.setup(:default, "sqlite3::memory:")

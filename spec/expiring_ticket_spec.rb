@@ -1,7 +1,10 @@
-require 'spec_helper'
+require File.expand_path('../spec_helper', __FILE__)
 
 shared_examples_for "ExpiringTicket" do
   describe ".maximum_lifetime" do
+    before(:each) do
+      @klass.maximum_lifetime = nil
+    end
     it "should respond with default value" do
       @klass.maximum_lifetime.should == 300
     end

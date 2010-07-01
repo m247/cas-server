@@ -1,11 +1,6 @@
-require File.join(File.dirname(__FILE__), 'application.rb')
+require File.expand_path('../config/environment', __FILE__)
 
-CASServer.set :run, false
-CASServer.set :environment, :production
+CASServer::Application.set :run, false
+CASServer::Application.set :environment, :production
 
-FileUtils.mkdir_p 'log' unless File.exists?('log')
-log = File.new("log/sinatra.log", "a+")
-$stdout.reopen(log)
-$stderr.reopen(log)
-
-run CASServer
+run CASServer::Application

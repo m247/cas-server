@@ -1,4 +1,4 @@
-require 'spec_helper'
+require File.expand_path('../spec_helper', __FILE__)
 
 shared_examples_for "GenericTicket" do
   describe ".prefix" do
@@ -27,9 +27,9 @@ shared_examples_for "GenericTicket" do
       ticket = @klass.new
       ticket.name.should match(/^#{@klass.prefix}/)
     end
-    it "should have #{GenericTicket::TICKET_LENGTH} characters" do
+    it "should have #{CASServer::GenericTicket::TICKET_LENGTH} characters" do
       ticket = @klass.new
-      ticket.name.should have(GenericTicket::TICKET_LENGTH).characters
+      ticket.name.should have(CASServer::GenericTicket::TICKET_LENGTH).characters
     end
   end
   describe "#created_at" do

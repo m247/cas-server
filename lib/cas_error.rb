@@ -1,1 +1,0 @@
-class CASError < RuntimeError; end

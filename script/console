@@ -4,7 +4,7 @@
 
 libs = []
 libs << "irb/completion"
-libs << File.dirname(__FILE__) + '/../application.rb'
+libs << File.dirname(__FILE__) + '/../config/environment.rb'
 
 command_line = []
 command_line << "irb"
@@ -12,5 +12,5 @@ command_line << libs.inject("") { |acc, lib| acc + %( -r "#{lib}") }
 command_line << "--simple-prompt"
 command = command_line.join(" ")
 
-puts "Welcome to the sinatra console interface."
+puts "Welcome to the CAS server console interface."
 exec command

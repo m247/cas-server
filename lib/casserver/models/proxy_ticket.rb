@@ -7,21 +7,23 @@
 #  - Tickets must be prefixed with ST- or PT-
 #  - Ticket length should be min 32 characters, ideally 256 characters
 
-class ProxyTicket < ServiceTicket
-  class << self
-    def prefix
-      'PT-'
+module CASServer
+  class ProxyTicket < ServiceTicket
+    class << self
+      def prefix
+        'PT-'
+      end
+      def valid_prefix?(ticket)
+        super(ticket) || superclass.valid_prefix?(ticket)
+      end
+      def unexpired
+        super + superclass.unexpired
+      end
+      def expired
+        super + superclass.expired
+      end
     end
-    def valid_prefix?(ticket)
-      super(ticket) || superclass.valid_prefix?(ticket)
-    end
-    def unexpired
-      super + superclass.unexpired
-    end
-    def expired
-      super + superclass.expired
-    end
-  end
 
-  belongs_to :granted_by_ticket, :model => 'ProxyGrantingTicket', :required => false
+    belongs_to :granted_by_ticket, :model => 'ProxyGrantingTicket', :required => false
+  end
 end
