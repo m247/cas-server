@@ -88,7 +88,7 @@ module CASServer
     end
 
     get '/validate' do
-      Validate.plain do |s|
+      Validate.plain do |p|
         p.success { |username| text "yes\n#{username}\n" }
         p.failure { text "no\n\n" }
       end
