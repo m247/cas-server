@@ -21,6 +21,7 @@ module CASServer
     # into the Main application configure block
     def database=(options)
       @database = options
+      DataMapper.setup(:default, @database)
     end
     def database
       @database
