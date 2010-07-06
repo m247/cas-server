@@ -6,10 +6,13 @@ module CASServer
         { :users_table => 'users', :username_column => 'username',
           :password_column => 'password', :crypted_password => :md5 }
       end
+
+      @@repository_count = 0
       def self.next_repository_name
-        @@repository_count = (@@repository_count || 0) + 1
+        @@repository_count = (@@repository_count) + 1
         :"cas_auth_sql_#{@@repository_count}"
       end
+
       def initialize(options)
         options = self.class.defaults.merge(options)
         db_opts = options.delete(:database)
