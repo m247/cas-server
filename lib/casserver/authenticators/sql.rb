@@ -60,7 +60,7 @@ module CASServer
           end
         end
         def require_cryptor!
-          raise "Invalid Password Crypt Algorithm" unless CRYPTORS.include?(@options[:crypted_password])
+          raise "Invalid Password Crypt Algorithm '#{@options[:crypted_password]}'" unless CRYPTORS.include?(@options[:crypted_password].to_sym)
           begin
             case @options[:crypted_password].to_sym
             when :plain
