@@ -23,14 +23,18 @@ module CASServer
         ticket_granting_cookie && !ticket_granting_cookie.expired?
       end
       def ticket_granting_cookie=(tgc)
-        return delete_cookie('tgt') if tgc.nil?
-        set_cookie('tgt', :value => tgc.name,
+        @ticket_granting_cookie = tgc
+
+        return response.delete_cookie('tgt') if tgc.nil?
+
+        response.set_cookie('tgt', :value => tgc.name,
           :path => request.env['REQUEST_PATH'],
           :domain => request.env['SERVER_NAME'],
           :secure => true, :expires => tgc.expires_at)
       end
       def ticket_granting_cookie
-        TicketGrantingCookie.get(request.cookies['tgt'])
+        @ticket_granting_cookie ||=
+          TicketGrantingCookie.get(request.cookies['tgt'])
       end
       def current_user
         ticket_granting_cookie.username
