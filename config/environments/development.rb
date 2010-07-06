@@ -8,6 +8,7 @@ CASServer.configuration do
   #     :username_column => 'username',
   #     :password_column => 'password',
   #     :crypted_password => 'md5',
+  #     :locked => proc { |acct| acct.locked < Time.now.utc },
   #     :extra_attributes => []
   #   }
   # 
@@ -28,7 +29,8 @@ CASServer.configuration do
   #     :auth_password => 'password',
   #     :encryption => 'simple_tls',
   #     :username_attribute => 'sAMAccountName',
-  #     :extra_attributes => %w(cn)
+  #     :extra_attributes => %w(cn),
+  #     :locked => proc { |acct| acct['userAccountControl'] & 0x002 == 0x002 }
   #   }
   # end
 end
