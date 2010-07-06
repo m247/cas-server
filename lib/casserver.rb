@@ -10,8 +10,8 @@ require 'yajl/json_gem'
 module CASServer
   autoload :Application,            "lib/casserver/application.rb"
 
+  autoload :Account,                "lib/casserver/account.rb"
   autoload :Authenticator,          "lib/casserver/authenticators.rb"
-  autoload :Authenticators,         "lib/casserver/authenticators.rb"
   autoload :CASError,               "lib/casserver/cas_error.rb"
 
   autoload :Configuration,          "lib/casserver/configuration.rb"
@@ -37,7 +37,10 @@ module CASServer
     @configuration
   end
   def self.authenticators
-    @authenticators ||= Authenticator::Group.new(configuration.authenticators)
+    @authenticators ||= Authenticator::Group.new(configuration.authenticators.set)
+  end
+  def self.trust_authenticators
+    []
   end
 end
 
