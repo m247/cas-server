@@ -12,10 +12,6 @@ module NavigationHelpers
 
     when /the home\s?page/
       '/'
-    when /the logout page with a url of "([^\"]*)"/
-      "/logout?url=#{$1}"
-    when /the logout page/
-      '/logout'
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
