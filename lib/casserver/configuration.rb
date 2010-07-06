@@ -38,6 +38,10 @@ module CASServer
     end
 
     class AuthenticatorConf
+      instance_methods.each { |m| undef_method(m.to_sym) unless %w(
+          __send__ __id__ send class inspect instance_eval
+          instance_variables ).include?(m.to_s) }
+
       attr_reader :set
       def initialize
         reset!
