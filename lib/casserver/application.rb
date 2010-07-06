@@ -87,6 +87,7 @@ module CASServer
     end
 
     get '/serviceValidate' do
+      content_type 'application/xml', :charset => 'utf-8'
       Validate.service do |s|
         s.success do |username, pgt|
           builder do |xml|
@@ -111,6 +112,7 @@ module CASServer
     end
 
     get '/proxyValidate' do
+      content_type 'application/xml', :charset => 'utf-8'
       Validate.proxy do |p|
         p.success do |username, pgt|
           builder do |xml|
@@ -142,6 +144,7 @@ module CASServer
     end
 
     get '/proxy' do
+      content_type 'application/xml', :charset => 'utf-8'
       Proxy.grant do |g|
         g.success do |pgt|
           builder do |xml|
