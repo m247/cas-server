@@ -59,6 +59,8 @@ module CASServer
                   end
                 end
               end
+
+              extra[:locked] = locked?(record)
             end
           end
         rescue Net::LDAP::LdapError => e

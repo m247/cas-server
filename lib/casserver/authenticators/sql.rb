@@ -38,6 +38,8 @@ module CASServer
           extra_attrs.each do |attr_name|
             extra[attr_name] = record.send(attr_name.to_sym)
           end
+
+          extra[:locked] = locked?(record)
         end
       end
 
