@@ -39,7 +39,7 @@ module CASServer
 
         Account.new(user) do |extra|
           extra_attrs.each do |attr_name|
-            extra[attr_name] = record.send(attr_name.to_sym)
+            extra[attr_name] = record.send(attr_name.to_sym) if record.respond_to?(attr_name.to_sym)
           end
 
           extra[:locked] = locked?(record)
