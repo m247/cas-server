@@ -55,17 +55,12 @@ module CASServer
       def reset!
         @set = []
       end
-      def method_missing(meth, *args, &block)
-        # lets create the method shall we :D
-        instance_eval <<-RUBY
-          def #{meth}                       # def foo
-            #{meth}_options = [:#{meth}]    #   foo_options = [:foo]
-            @set << #{meth}_options         #   @set << foo_options
-            #{meth}_options                 #   foo_options
-          end                               # end
-        RUBY
+      def method_missing(meth, *args)
+        self.class.send(:define_method, meth.to_sym) do
+          @set << [meth.to_sym]
+          @set.last
+        end
 
-        # Now we call our new method, whether its the setter or the getter
         __send__(meth, *args)
       end
     end
