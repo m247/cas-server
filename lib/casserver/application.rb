@@ -9,9 +9,7 @@ module CASServer
     configure do
       set :sessions, true
       set :haml, :format => :html5
-      set :environment, :development
-
-      # DataMapper.setup(:default, CASServer.configuration.database)
+      set :environment, (ENV['RACK_ENV'] || :development)
     end
 
     error do
