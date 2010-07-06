@@ -10,6 +10,10 @@ module CASServer
           attrs = @options[:extra].kind_of?(Array) ? @options[:extra] : @options[:extra].split(',')
           attrs.map(&:strip)
         end
+        def locked?(record)
+          return false unless @options.has_key?(:locked)
+          @options[:locked].call(record)
+        end
     end
   end
 end
