@@ -45,6 +45,10 @@ module CASServer
         response['Location'] = url
         halt(*args)
       end
+      def text(str)
+        content_type 'text/plain', :charset => 'utf-8'
+        str
+      end
     end
 
     before do
