@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/r18n'
+require 'builder'
 require 'haml'
 
 module CASServer
@@ -97,13 +98,13 @@ module CASServer
     get '/serviceValidate' do
       content_type 'application/xml', :charset => 'utf-8'
       Validate.service do |s|
-        s.success do |username, pgt|
+        s.success do |username, pgtiou|
           builder do |xml|
             xml.cas :serviceResponse, 'xmlns:cas' => 'http://www.yale.edu/tp/cas' do
               xml.cas :authenticationSuccess do
                 xml.cas :user, username
-                if pgt
-                  xml.cas :proxyGrantingTicket, pgt
+                if pgtiou
+                  xml.cas :proxyGrantingTicket, pgtiou
                 end
               end
             end

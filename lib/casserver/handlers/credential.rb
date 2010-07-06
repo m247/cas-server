@@ -51,7 +51,7 @@ module CASServer
           !params['service'].nil? && params['service'] != ''
         end
         def warn?
-          params['warn'] == '1'
+          params['warn'] == 'true'
         end
         def show_login_form?(logged_in)
           return true if renew?

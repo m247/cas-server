@@ -9,6 +9,7 @@ require 'sinatra'
 require 'capybara'
 require 'capybara/cucumber'
 require 'spec'
+require 'webmock'
 
 # set test environment
 Sinatra::Base.set :environment, :test
@@ -22,10 +23,15 @@ require File.expand_path('../../../config/environment', __FILE__)
 DataMapper.setup(:default, "sqlite3::memory:")
 DataMapper.auto_migrate!
 
+Before do
+  WebMock.disable_net_connect!
+  WebMock.reset_webmock
+end
+
 World do
   Capybara.app = CASServer::Application
-  # Capybara.default_driver = :culerity
   include Capybara
   include Spec::Expectations
   include Spec::Matchers
+  include WebMock
 end

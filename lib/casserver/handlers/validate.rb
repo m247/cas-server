@@ -61,7 +61,7 @@ module CASServer
             %w(200 202 301 302 304).include?(res.code)
           end
 
-          @success.call(t.username, t.proxy_granting_ticket)
+          @success.call(t.username, t.proxy_granting_ticket && t.proxy_granting_ticket.proxy_granting_ticket_iou)
         rescue CASError => e
           @failure.call(e.message)
         rescue Exception
@@ -78,7 +78,6 @@ module CASServer
         def renew?
           params['renew'] == 'true'
         end
-        # TODO: Check the code down here
         def proxy_granting_ticket(service_ticket)
           service_ticket.proxy_granting_ticket = ProxyGrantingTicket.create
         end

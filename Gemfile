@@ -8,6 +8,7 @@ gem 'dm-aggregates'
 gem 'dm-migrations'
 gem 'dm-timestamps'
 gem 'dm-validations'
+gem 'builder'
 gem 'haml'
 gem 'yajl-ruby'
 # gem 'fancy-buttons'
@@ -17,5 +18,7 @@ gem 'dm-sqlite-adapter', :require => nil
 group :test do
   gem 'rspec', :require => nil
   gem 'rack-test'
-  gem 'capybara'
+  gem 'capybara',   :git => "git://github.com/jnicklas/capybara.git"
+  gem 'launchy'
+  gem 'webmock'
 end
