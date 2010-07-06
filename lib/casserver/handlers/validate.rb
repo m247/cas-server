@@ -57,7 +57,7 @@ module CASServer
         begin
           t = ticket_klass.validate!(app.params['ticket'], app.params['service'], renew?)
 
-          verify_proxy_callback(t, app.options.ca_file) do |res|
+          verify_proxy_callback(t, CASServer.configuration.ssl.ca_file) do |res|
             %w(200 202 301 302 304).include?(res.code)
           end
 
