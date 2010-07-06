@@ -28,7 +28,7 @@ module CASServer
       def call(app)
         @params = app.params
         if show_login_form?(app.logged_in?)
-          return @login.call(LoginTicket.create)  # BUG: Called in the scope of this class, not the Sinatra action
+          return @login.call(LoginTicket.create)
         else
           if gateway?
             return @gateway.call(service_ticket.url, warn?) if app.logged_in? # TODO: Fix service_ticket.url
@@ -79,12 +79,12 @@ module CASServer
         @params = app.params
 
         acct = if username_password_login? && LoginTicket.valid?(params['lt'])
-          app.authenticators.detect do |source|
+          CASServer.authenticators.detect do |source|
             r = source.authenticate(params['username'], params['password'], params['service'], app.request)
             break r unless r.nil?
           end
         else
-          app.trust_authenticators.detect do |source|
+          CASServer.trust_authenticators.detect do |source|
             r = source.authenticate(params['service'], app.request)
             break r unless r.nil?
           end

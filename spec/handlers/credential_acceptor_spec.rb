@@ -31,8 +31,8 @@ module CASServer
 
           @app.stub(:params).and_return(@params)
           @app.stub(:request).and_return(@request)
-          @app.stub(:authenticators).and_return([@authenticator])
-          @app.stub(:trust_authenticators).and_return([])
+          CASServer.stub!(:authenticators).and_return([@authenticator])
+          CASServer.stub!(:trust_authenticators).and_return([])
 
           @account.stub(:username).and_return('test')
           @account.stub(:extra).and_return({})
