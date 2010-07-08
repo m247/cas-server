@@ -61,7 +61,7 @@ module CASServer
             %w(200 202 301 302 304).include?(res.code)
           end
 
-          @success.call(t.username, t.proxy_granting_ticket && t.proxy_granting_ticket.proxy_granting_ticket_iou)
+          do_success(t)
         rescue CASError => e
           @failure.call(e.message)
         rescue Exception
@@ -72,23 +72,29 @@ module CASServer
         def ticket_klass
           ServiceTicket
         end
+        def do_success(t)
+          pgt_iou = t.proxy_granting_ticket.proxy_granting_ticket_iou rescue nil
+          @success.call(t.username, pgt_iou)
+        end
         def params
           @params
         end
         def renew?
           params['renew'] == 'true'
         end
-        def proxy_granting_ticket(service_ticket)
-          service_ticket.proxy_granting_ticket = ProxyGrantingTicket.create
+        def proxy_granting_ticket(ticket, proxy)
+          ticket.proxy_granting_ticket = ProxyGrantingTicket.new(:proxy => proxy)
+          ticket.proxy_granting_ticket.save
+          ticket.proxy_granting_ticket
         end
         def proxy_callback?
           params['pgtUrl'] && params['pgtUrl'] =~ %r{^https://}
         end
-        def verify_proxy_callback(service_ticket, ca_file, &blk)
+        def verify_proxy_callback(ticket, ca_file, &blk)
           return unless proxy_callback?
 
-          pgt = proxy_granting_ticket(service_ticket)
-          uri = URI.parse(params['pgtUrl'])
+          pgt = proxy_granting_ticket(ticket, params['pgtUrl'])
+          uri = URI.parse(pgt.proxy)
           https = Net::HTTP.new(uri.host, uri.port)
           https.use_ssl = true
           https.ca_file = ca_file
@@ -115,6 +121,11 @@ module CASServer
       protected
         def ticket_klass
           ProxyTicket
+        end
+        def do_success(t)
+          pgt_iou = t.proxy_granting_ticket.proxy_granting_ticket_iou rescue nil
+          pgt_proxy = t.granted_by_ticket.proxy rescue nil
+          @success.call(t.username, pgt_iou, Array(pgt_proxy))
         end
     end
   end

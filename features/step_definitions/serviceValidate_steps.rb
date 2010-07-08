@@ -1,10 +1,10 @@
 When /^I serviceValidate the service ticket for "([^"]*)"$/ do |url|
-  visit('/serviceValidate?ticket=%s&service=%s' % [@service_ticket.name, url])
+  visit('/serviceValidate?ticket=%s&service=%s' % [@service_ticket, url])
 end
 
 When /^I serviceValidate the service ticket for "([^"]*)" with proxy URL "([^"]*)"$/ do |url, callback|
   stub_request(:get, Regexp.new(callback)).to_return(:body => 'Ok')
-  visit('/serviceValidate?ticket=%s&service=%s&pgtUrl=%s' % [@service_ticket.name, url, callback])
+  visit('/serviceValidate?ticket=%s&service=%s&pgtUrl=%s' % [@service_ticket, url, callback])
 end
 
 Then /^I should have xpath "([^"]*)"(?: with text "([^"]*)")?$/ do |element_name, text|

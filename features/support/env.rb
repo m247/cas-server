@@ -21,11 +21,16 @@ require File.expand_path('../../../config/environment', __FILE__)
 
 # establish in-memory database for testing
 DataMapper.setup(:default, "sqlite3::memory:")
-DataMapper.auto_migrate!
+# DataMapper.auto_migrate!.each do |klass|
+#   klass.raise_on_save_failure = true
+# end
 
 Before do
   WebMock.disable_net_connect!
   WebMock.reset_webmock
+  DataMapper.auto_migrate!.each do |klass|
+    klass.raise_on_save_failure = true
+  end
 end
 
 World do

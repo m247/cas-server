@@ -113,7 +113,8 @@ module CASServer
         s.failure do |code|
           builder do |xml|
             xml.cas :serviceResponse, 'xmlns:cas' => 'http://www.yale.edu/tp/cas' do
-              xml.cas :authenticationFailure, t.error[code.downcase], :code => code
+              reason = t.error.send(code.downcase, params['ticket'], params['service'])
+              xml.cas :authenticationFailure, reason, :code => code
             end
           end
         end
@@ -123,15 +124,15 @@ module CASServer
     get '/proxyValidate' do
       content_type 'application/xml', :charset => 'utf-8'
       Validate.proxy do |p|
-        p.success do |username, pgt|
+        p.success do |username, pgtiou, proxies|
           builder do |xml|
             xml.cas :serviceResponse, 'xmlns:cas' => 'http://www.yale.edu/tp/cas' do
               xml.cas :authenticationSuccess do
                 xml.cas :user, username
-                if pgt
-                  xml.cas :proxyGrantingTicket, pgt
+                if pgtiou
+                  xml.cas :proxyGrantingTicket, pgtiou
                 end
-                if proxies
+                unless proxies.empty?
                   xml.cas :proxies do
                     proxies.each do |proxy|
                       xml.cas :proxy, proxy
@@ -145,7 +146,8 @@ module CASServer
         p.failure do |code|
           builder do |xml|
             xml.cas :serviceResponse, 'xmlns:cas' => 'http://www.yale.edu/tp/cas' do
-              xml.cas :authenticationFailure, t.error[code.downcase], :code => code
+              reason = t.error.send(code.downcase, params['ticket'], params['service'])
+              xml.cas :authenticationFailure, reason, :code => code
             end
           end
         end
@@ -165,7 +167,8 @@ module CASServer
         g.failure do |code|
           builder do |xml|
             xml.cas :serviceResponse, 'xmlns:cas' => 'http://www.yale.edu/tp/cas' do
-              xml.cas :proxyFailure, t.error[code.downcase], :code => code
+              reason = t.error.send(code.downcase, params['ticket'], params['service'])
+              xml.cas :proxyFailure, reason, :code => code
             end
           end
         end

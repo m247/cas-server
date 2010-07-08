@@ -12,6 +12,7 @@ Feature: /validate
     And I should not see "no"
 
   Scenario: /validate without valid ticket
+    Given an invalid service ticket
     When I validate the service ticket for "http://test.com/"
     Then I should see "no"
     And I should not see "yes"

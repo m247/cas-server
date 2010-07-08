@@ -12,6 +12,7 @@ Feature: /serviceValidate
     And I should not have xpath "//cas:proxyGrantingTicket"
 
   Scenario: /serviceValidate with invalid ticket
+    Given an invalid service ticket
     When I serviceValidate the service ticket for "http://test.com/"
     Then I should have xpath "//cas:authenticationFailure[@code='INVALID_TICKET']"
 

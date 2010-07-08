@@ -19,6 +19,8 @@ module CASServer
       first(:name => ticket)
     end
 
+    property :proxy, String
+
     belongs_to :service_ticket, :required => false
     has 1, :proxy_granting_ticket_iou
     has n, :granted_proxy_tickets, :model => 'ProxyTicket', :child_key => ['granted_by_ticket_name']
@@ -28,7 +30,9 @@ module CASServer
 
     private
       def create_iou
-        self.proxy_granting_ticket_iou = ProxyGrantingTicketIou.create
+        return unless self.proxy_granting_ticket_iou.nil?
+        self.proxy_granting_ticket_iou = ProxyGrantingTicketIou.new
+        self.proxy_granting_ticket_iou.save
       end
       def destroy_iou
         self.proxy_granting_ticket_iou.destroy!
