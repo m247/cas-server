@@ -6,7 +6,7 @@ module CASServer
       before(:each) do
         @service = Service.new do |s|
           s.success { 'success' }
-          s.failure { 'failure' }
+          s.failure { |msg| msg }
         end
       end
       describe ".new" do
@@ -19,14 +19,23 @@ module CASServer
       end
       describe "#call" do
         before(:each) do
+          @params = {}
           @app = double('Sinatra::Base app')
-          @app.stub(:params).and_return({})
+          @app.stub(:params).and_return(@params)
 
           CASServer.configuration.ssl.ca_file = ''
         end
-        describe "invalid service ticket" do
+        describe "without service ticket" do
           it "should return failure" do
-            @service.call(@app).should == 'failure'
+            @service.call(@app).should == 'INVALID_REQUEST'
+          end
+        end
+        describe "invalid service ticket" do
+          before(:each) do
+            @params['ticket'] = 'ST-BLAHBLAH'
+          end
+          it "should return failure" do
+            @service.call(@app).should == 'INVALID_TICKET'
           end
         end
         describe "valid service ticket" do
