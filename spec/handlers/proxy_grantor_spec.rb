@@ -61,10 +61,13 @@ module CASServer
               @pgt = double('ProxyGrantingTicket')
 
               @pt.stub(:name).and_return('PT-TEST')
+              @pt.stub(:granted_by_ticket=).with(@pgt)
+              @pt.stub(:save).and_return(true)
+
               @st.stub(:username).and_return('test')
               @pgt.stub(:service_ticket).and_return(@st)
 
-              ProxyTicket.stub!(:create).and_return(@pt)
+              ProxyTicket.stub!(:new).and_return(@pt)
               ProxyGrantingTicket.stub!(:validate!).and_return(@pgt)
             end
             it "should return 'success'" do

@@ -70,7 +70,10 @@ module CASServer
           end
           describe "valid account" do
             before(:each) do
+              @tgc = double('Ticket Granting Cookie')
+              @tgc.should_receive(:save).and_return(true)
               @app.should_receive(:ticket_granting_cookie=)
+              @app.should_receive(:ticket_granting_cookie).and_return(@tgc)
             end
             it "should result in success" do
               @acceptor.call(@app).should == 'success'

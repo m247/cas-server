@@ -25,8 +25,10 @@ module CASServer
           pgt = ProxyGrantingTicket.validate!(params['pgt'])
           raise CASError, 'BAD_PGT' if pgt.nil?
 
-          pt = ProxyTicket.create(:username => pgt.service_ticket.username,
+          pt = ProxyTicket.new(:username => pgt.service_ticket.username,
             :service => params['targetService'])
+          pt.granted_by_ticket = pgt
+          pt.save
           @success.call(pt.name)
         rescue CASError => e
           @failure.call(e.message)

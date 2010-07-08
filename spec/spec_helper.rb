@@ -18,7 +18,15 @@ require File.expand_path('../../config/environment', __FILE__)
 # establish in-memory database for testing
 DataMapper.setup(:default, "sqlite3::memory:")
 
+# Require our shared specs so we can run specs individually
+require File.expand_path('../generic_ticket_spec', __FILE__)
+require File.expand_path('../expiring_ticket_spec', __FILE__)
+
 Spec::Runner.configure do |config|
   # reset database before each example is run
-  config.before(:each) { DataMapper.auto_migrate! }
+  config.before(:each) do
+    DataMapper.auto_migrate!.each do |klass|
+      klass.raise_on_save_failure = true
+    end
+  end
 end

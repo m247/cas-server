@@ -27,7 +27,7 @@ module CASServer
     module InstanceMethods
       def expire!
         attribute_set(:expires_at, Time.now.utc)
-        save!
+        save
       end
       def expired?
         expires_at <= Time.now.utc

@@ -28,7 +28,9 @@ module CASServer
       def call(app)
         @params = app.params
         if show_login_form?(app.logged_in?)
-          return @login.call(LoginTicket.create)
+          lt = LoginTicket.new
+          lt.save
+          return @login.call(lt)
         else
           if gateway?
             return @gateway.call(service_ticket.url, warn?) if app.logged_in? # TODO: Fix service_ticket.url
@@ -93,11 +95,13 @@ module CASServer
         return @failure.call('Invalid Credentials') if acct.nil?
         return @failure.call('Account "%s" is locked' % acct.username) if acct.locked?
 
-        app.ticket_granting_cookie = TicketGrantingCookie.create(:username => acct.username,
+        app.ticket_granting_cookie = TicketGrantingCookie.new(:username => acct.username,
           :extra => acct.extra)
+        app.ticket_granting_cookie.save
 
         if has_service?
-          st = ServiceTicket.create(:username => acct.username, :service => params['service'])
+          st = ServiceTicket.new(:username => acct.username, :service => params['service'])
+          st.save
           return @redirect.call(st.url, should_warn?)
         end
         return @success.call
