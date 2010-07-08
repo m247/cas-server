@@ -1,10 +1,13 @@
 require File.expand_path('../../spec_helper', __FILE__)
-require File.expand_path('../../generic_ticket_spec', __FILE__)
 
 module CASServer
   describe ProxyGrantingTicket do
     before(:each) do
       @klass = ProxyGrantingTicket
+    end
+
+    def default_options
+      {:proxy => 'https://test-proxy.com'}
     end
 
     describe ".prefix" do

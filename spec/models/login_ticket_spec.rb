@@ -6,6 +6,10 @@ module CASServer
       @klass = LoginTicket
     end
 
+    def default_options
+      {}
+    end
+
     describe ".prefix" do
       it "should be LT-" do
         LoginTicket.prefix.should == 'LT-'

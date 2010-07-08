@@ -6,6 +6,10 @@ module CASServer
       @klass = ProxyTicket
     end
 
+    def default_options
+      {:service => 'http://test.com', :username => 'testing'}
+    end
+
     describe ".prefix" do
       it "should be PT-" do
         ProxyTicket.prefix.should == 'PT-'
@@ -22,7 +26,7 @@ module CASServer
 
     describe ".unexpired" do
       before(:each) do
-        ServiceTicket.create(:service => 'http://test.com', :username => 'testing')
+        ServiceTicket.create(default_options)
       end
       it "should return service tickets" do
         ProxyTicket.unexpired.first.should be_kind_of(ServiceTicket)

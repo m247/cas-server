@@ -17,7 +17,7 @@ shared_examples_for "ExpiringTicket" do
   end
   describe ".expires_at" do
     it "should be :maximum_lifetime into the future" do
-      t = @klass.new
+      t = @klass.new(default_options)
       t.expires_at.to_i.should == (Time.now.utc + @klass.maximum_lifetime).to_i
     end
   end
@@ -33,14 +33,14 @@ shared_examples_for "ExpiringTicket" do
   end
   describe "#expire!" do
     it "should expire the ticket" do
-      t = @klass.new
+      t = @klass.new(default_options)
       t.expire!
       t.should be_expired
     end
   end
   describe "#expired?" do
     before(:each) do
-      @expiring_ticket = @klass.new
+      @expiring_ticket = @klass.new(default_options)
     end
     it "should be false when not expired" do
       @expiring_ticket.should_not be_expired

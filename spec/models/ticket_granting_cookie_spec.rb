@@ -6,6 +6,10 @@ module CASServer
       @klass = TicketGrantingCookie
     end
 
+    def default_options
+      {:username => 'testing'}
+    end
+
     describe ".prefix" do
       it "should be TGC-" do
         TicketGrantingCookie.prefix.should == 'TGC-'
@@ -17,7 +21,7 @@ module CASServer
 
     describe ".valid?" do
       before(:each) do
-        @tgc = TicketGrantingCookie.create(:username => 'testing')
+        @tgc = TicketGrantingCookie.create(default_options)
         @name = @tgc.name
       end
       it "should be with unexpired ticket" do

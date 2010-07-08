@@ -8,6 +8,10 @@ module CASServer
       @klass = ServiceTicket
     end
 
+    def default_options
+      {:service => 'http://test.com', :username => 'testing'}
+    end
+
     describe ".prefix" do
       it "should be ST-" do
         ServiceTicket.prefix.should == 'ST-'
@@ -48,7 +52,7 @@ module CASServer
     end
     describe ".validate!" do
       before(:each) do
-        @st = ServiceTicket.create(:username => 'testing', :service => 'http://test.com/')
+        @st = ServiceTicket.create(default_options)
       end
       describe "valid service ticket" do
         before(:each) do

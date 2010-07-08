@@ -24,23 +24,23 @@ shared_examples_for "GenericTicket" do
   end
   describe "#name" do
     it "should not begin with :prefix" do
-      ticket = @klass.new
+      ticket = @klass.new(default_options)
       ticket.name.should match(/^#{@klass.prefix}/)
     end
     it "should have #{CASServer::GenericTicket::TICKET_LENGTH} characters" do
-      ticket = @klass.new
+      ticket = @klass.new(default_options)
       ticket.name.should have(CASServer::GenericTicket::TICKET_LENGTH).characters
     end
   end
   describe "#created_at" do
     it "should be now" do
-      ticket = @klass.new
+      ticket = @klass.new(default_options)
       ticket.created_at.to_i.should == Time.now.utc.to_i
     end
   end
   describe "#to_s" do
     it "gives the ticket name" do
-      ticket = @klass.new
+      ticket = @klass.new(default_options)
       ticket.name.should == ticket.to_s
     end
   end

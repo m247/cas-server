@@ -6,6 +6,10 @@ module CASServer
       @klass = ProxyGrantingTicketIou
     end
 
+    def default_options
+      {}
+    end
+
     describe ".prefix" do
       it "should be PGTIOU-" do
         ProxyGrantingTicketIou.prefix.should == 'PGTIOU-'
