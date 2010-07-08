@@ -34,10 +34,27 @@ module CASServer
     end
     describe ".expired" do
       before(:each) do
-        ServiceTicket.create(:service => 'http://test.com', :username => 'testing').expire!
+        ServiceTicket.create(default_options).expire!
       end
       it "should return service tickets" do
         ProxyTicket.expired.first.should be_kind_of(ServiceTicket)
+      end
+    end
+    describe "#granted_by_ticket" do
+      before(:each) do
+        @pgt = ProxyGrantingTicket.new
+        @pgt.save
+        @pt = ProxyTicket.new(default_options)
+        @pt.granted_by_ticket = @pgt
+        @pt.save
+
+        @subject = ProxyTicket.get(@pt.name)
+      end
+      it "should not be nil" do
+        @subject.granted_by_ticket.should_not be_nil
+      end
+      it "should be a proxy granting ticket" do
+        @subject.granted_by_ticket.should == @pgt
       end
     end
   end

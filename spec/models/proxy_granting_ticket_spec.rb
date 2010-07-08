@@ -41,5 +41,22 @@ module CASServer
         end
       end
     end
+    describe "#granted_proxy_tickets" do
+      before(:each) do
+        @pgt = ProxyGrantingTicket.new
+        @pgt.save
+        @pt = ProxyTicket.create(:service => 'http://test.com', :username => 'testing')
+        @pgt.granted_proxy_tickets << @pt
+        @pgt.save
+
+        @subject = ProxyGrantingTicket.get(@pgt.name)
+      end
+      it "should not be empty" do
+        @subject.granted_proxy_tickets.should_not be_empty
+      end
+      it "should include a proxy ticket" do
+        @subject.granted_proxy_tickets.should include(@pt)
+      end
+    end
   end
 end
