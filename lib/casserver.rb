@@ -6,6 +6,7 @@ require 'dm-migrations'
 require 'dm-validations'
 require 'dm-aggregates'
 require 'yajl/json_gem'
+require 'logger'
 
 module CASServer
   autoload :Application,            "lib/casserver/application.rb"
