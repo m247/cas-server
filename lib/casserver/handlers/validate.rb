@@ -84,9 +84,10 @@ module CASServer
           params['renew'] == 'true'
         end
         def proxy_granting_ticket(ticket, proxy)
-          ticket.proxy_granting_ticket = ProxyGrantingTicket.new(:proxy => proxy)
-          ticket.proxy_granting_ticket.save
-          ticket.proxy_granting_ticket
+          pgt = ProxyGrantingTicket.new(:proxy => proxy)
+          pgt.service_ticket = ticket
+          pgt.save
+          pgt
         end
         def proxy_callback?
           params['pgtUrl'] && params['pgtUrl'] =~ %r{^https://}
