@@ -163,7 +163,9 @@ module CASServer
         g.success do |pgt|
           builder do |xml|
             xml.cas :serviceResponse, 'xmlns:cas' => 'http://www.yale.edu/tp/cas' do
-              xml.cas :proxyTicket, pgt
+              xml.cas :proxySuccess do
+                xml.cas :proxyTicket, pgt
+              end
             end
           end
         end
