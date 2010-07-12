@@ -1,0 +1,21 @@
+%h1 Login
+
+- if @message
+  %ul#noticeboard
+    %li= @message
+
+%form(action='/login' method='post')
+  %fieldset
+    %ol
+      %li
+        %label(for='username') Username
+        %input(type='text' name='username' id='username' size='30')
+      %li
+        %label(for='password') Password
+        %input(type='password' name='password' id='password' size='30')
+  - if params['service']
+    %input{:type => 'hidden', :name => 'service', :value => params['service']}
+  - if params['warn']
+    %input{:type => 'hidden', :name => 'warn', :value => 'true'}
+  %input{:type => 'hidden', :name => 'lt', :value => @lt}
+  %input(type='submit' value='Sign In')

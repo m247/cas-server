@@ -111,13 +111,13 @@ module CASServer
           @params
         end
         def has_service?
-          !@params['service'].nil? && @params['service'] != ''
+          !params['service'].nil? && params['service'] != ''
         end
         def should_warn?
-          @params['warn'] == '1'
+          params['warn'] && params['warn'] != ''
         end
         def username_password_login?
-          @params['username'] && @params['password'] && @params['lt']
+          params['username'] && params['password'] && params['lt']
         end
     end
   end

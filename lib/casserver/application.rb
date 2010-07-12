@@ -79,9 +79,12 @@ module CASServer
 
     post '/login' do
       Credential.acceptor do |a|
-        a.redirect { |url, warn| redirect303(url, warn) }
-        a.failure  { |reason| haml :login }  # render /login and show reason
-        a.success  { haml :logged_in }
+        a.redirect do |url, warn|
+          warn ? haml(:redirect, :locals => {:target => url, :message => t.login.redirect}) :
+            redirect(url, 303)
+        end
+        a.failure { |reason| haml :login_form, :locals => {:message => reason} }
+        a.success { haml :logged_in }
       end
     end
 

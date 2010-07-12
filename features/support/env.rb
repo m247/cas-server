@@ -31,6 +31,14 @@ Before do
   DataMapper.auto_migrate!.each do |klass|
     klass.raise_on_save_failure = true
   end
+
+  # Begin cludge to help us test redirects with capybara
+  CASServer::Application.get '/redirection' do
+    [request.request_method, request.url].join(" ")
+  end
+  CASServer::Application.post '/redirection' do
+    [request.request_method, request.url].join(" ")
+  end
 end
 
 World do
