@@ -5,11 +5,11 @@ Feature: /logout
 
   Scenario: /logout
     Given I have a single sign on session
-    When I go to the logout page
+    When I visit "/logout"
     Then I should see "You have successfully logged out"
 
   Scenario: /logout with url
     Given I have a single sign on session
-    When I go to the logout page with a url of "http://test.com/"
+    When I visit "/logout?url=http://test.com/"
     Then I should see "You have successfully logged out"
     And I should see "http://test.com/"
