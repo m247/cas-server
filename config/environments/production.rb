@@ -1,4 +1,6 @@
 CASServer.configuration do
+  database = 'sqlite3:db/development.sqlite3'
+
   # authenticators do
   #   ldap << {
   #     :host => 'ldap.example.net',
