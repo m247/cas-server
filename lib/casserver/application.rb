@@ -34,7 +34,7 @@ module CASServer
         response.set_cookie('tgt', :value => tgc.name,
           :path => request.env['REQUEST_PATH'],
           :domain => request.env['SERVER_NAME'],
-          :secure => true, :expires => tgc.expires_at)
+          :secure => request.env['HTTPS'] == 'on', :expires => tgc.expires_at)
       end
       def ticket_granting_cookie
         @ticket_granting_cookie ||=
@@ -42,12 +42,6 @@ module CASServer
       end
       def current_user
         ticket_granting_cookie.username
-      end
-      def redirect303(url, warn = false, *args)
-        return haml(:redirect) if warn
-        status(303)
-        response['Location'] = url
-        halt(*args)
       end
       def text(str)
         content_type 'text/plain', :charset => 'utf-8'
@@ -71,8 +65,14 @@ module CASServer
 
     get '/login' do
       Credential.requestor do |r|
-        r.login     { |lt| haml :login_form, :locals => {:lt => lt} }
-        r.gateway   { |url, warn| redirect303(url, warn) }
+        r.gateway do |url, warn|
+          if warn
+            haml :redirect, :locals => {:target => url}
+          else
+            redirect(url, 303)
+          end
+        end
+        r.login { |lt| haml :login_form, :locals => {:lt => lt} }
         r.logged_in { haml :logged_in }
       end
     end

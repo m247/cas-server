@@ -33,8 +33,12 @@ module CASServer
           return @login.call(lt)
         else
           if gateway?
-            return @gateway.call(service_ticket.url, warn?) if app.logged_in? # TODO: Fix service_ticket.url
-            return @gateway.call(params['service'], warn?)
+            return @gateway.call(params['service'], warn?) unless app.logged_in?
+
+            st = ServiceTicket.new(:service => params['service'],
+              :username => app.ticket_granting_cookie.username)
+            st.save
+            return @gateway.call(st.url, warn?)
           end
           return @logged_in.call
         end
@@ -53,7 +57,7 @@ module CASServer
           !params['service'].nil? && params['service'] != ''
         end
         def warn?
-          params['warn'] == 'true'
+          params['warn'] && params['warn'] != ''
         end
         def show_login_form?(logged_in)
           return true if renew?
