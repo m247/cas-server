@@ -1,0 +1,12 @@
+error:
+  internal_error: An internal error occurred please try again later
+  invalid_request: Not all required parameters present
+  invalid_service: The service %2 provided did not match that of ticket %1
+  bad_pgt: The Proxy Granting Ticket %1 provided was invalid
+  invalid_ticket: The ticket %1 provided is not valid
+  invalid_ticket_alts:
+    prefix: The ticket %1 provided is not valid
+    missing: The ticket %1 does not exist or has expired
+    renew: The ticket %1 provided was not granted by credential submission
+login:
+  redirect: Successfully Signed In
