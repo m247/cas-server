@@ -2,7 +2,7 @@ require 'securerandom'
 
 module CASServer
   module GenericTicket
-    TICKET_LENGTH = 256
+    TICKET_LENGTH = 64  # Min 64, Max 256
     def self.included(base)
       base.extend ClassMethods
       base.send :include, InstanceMethods
