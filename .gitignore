@@ -2,3 +2,5 @@
 config.yml
 *.db
 vendor
+sinatra.log
+db
