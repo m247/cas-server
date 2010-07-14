@@ -81,7 +81,9 @@ module CASServer
           end
         end
         r.login { haml :login_form }
-        r.logged_in { haml :logged_in }
+        r.logged_in do
+          haml :login_form, :locals => {:message => t.login.success(current_user)}
+        end
       end
     end
 
@@ -92,7 +94,9 @@ module CASServer
             redirect(url, 303)
         end
         a.failure { |reason| haml :login_form, :locals => {:message => reason} }
-        a.success { haml :logged_in }
+        a.success do
+          haml :login_form, :locals => {:message => t.login.success(current_user)}
+        end
       end
     end
 
