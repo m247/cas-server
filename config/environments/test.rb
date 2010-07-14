@@ -1,5 +1,5 @@
 CASServer.configuration do
-  database = 'sqlite3::memory:'
+  database 'sqlite3::memory:'
 
   authenticators.reset!
   authenticators do

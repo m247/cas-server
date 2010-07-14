@@ -1,5 +1,5 @@
 CASServer.configuration do
-  database = 'sqlite3:db/development.sqlite3'
+  database 'sqlite3:db/development.sqlite3'
 
   # authenticators do
   #   sql << {

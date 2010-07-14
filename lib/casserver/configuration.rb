@@ -19,15 +19,21 @@ module CASServer
 
     # Database configuration, injects the DataMapper setup
     # into the Main application configure block
-    def database=(options)
-      @database = options
-      DataMapper.setup(:default, @database)
-    end
-    def database
+    def database(options = nil)
+      unless options.nil?
+        @database = options
+        ::DataMapper.setup(:default, @database)
+      end
       @database
     end
     def ssl
       @ssl ||= OpenStruct.new
+    end
+    def use_lowercase_usernames(opt = true)
+      @lowercase_usernames = !! opt     # Force boolean
+    end
+    def lowercase_usernames?
+      @lowercase_usernames || false
     end
 
     # Authenticators setup

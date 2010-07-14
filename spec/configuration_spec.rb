@@ -31,7 +31,7 @@ module CASServer
     end
     describe "#database" do
       it "should allow setting of database URI" do
-        @configuration.database = 'sqlite:db/testing.db'
+        @configuration.database 'sqlite:db/testing.db'
         @configuration.database.should == 'sqlite:db/testing.db'
       end
     end
