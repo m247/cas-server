@@ -101,7 +101,11 @@ module CASServer
     end
 
     get '/logout' do
-      ticket_granting_cookie = nil
+      if logged_in?
+        ticket_granting_cookie.expire!
+        ticket_granting_cookie = nil
+      end
+
       @url = params[:url] if params[:url] =~ /^https?:\/\//
       haml :logged_out
     end
