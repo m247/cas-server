@@ -2,7 +2,10 @@
 %html
   %head
     %title CAS Server
-    %meta{"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}
+    %meta(http-equiv = "Content-Type" content = "text/html; charset=utf-8")
     %link(href="/css/default.css" media="screen" rel="Stylesheet" type="text/css")
+    %script(type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
+    %script(type="text/javascript" src="/js/default.js")
   %body
-    = yield
+    #content
+      = yield
