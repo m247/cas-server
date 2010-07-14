@@ -12,7 +12,8 @@ module CASServer
         end
         def locked?(record)
           return false unless @options.has_key?(:locked)
-          @options[:locked].call(record)
+          @options[:locked].call(record) rescue true  # Fail safe, if there is a locked proc and it
+                                                      # errors, don't let them in. Should be logged.
         end
     end
   end
