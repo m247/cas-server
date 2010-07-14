@@ -9,7 +9,6 @@ module CASServer
     register Sinatra::R18n
 
     configure do
-      set :sessions, true
       set :haml, :format => :html5
       set :environment, (ENV['RACK_ENV'] || :development)
     end
