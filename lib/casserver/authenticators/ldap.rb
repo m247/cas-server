@@ -44,6 +44,7 @@ module CASServer
 
       def initialize(options)
         conn_options, @options = extract_connection_and_options(options)
+        conn_options[:encryption] = conn_options[:encryption].to_sym   if conn_options.has_key?(:encryption)
         @conn = Net::LDAP.new(conn_options)
       end
       def authenticate(user, pass, service = nil, request = nil)
