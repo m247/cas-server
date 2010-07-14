@@ -1,21 +1,21 @@
-%h1 Login
+%h1 Central Login
 
-- if @message
+- if defined?(message)
   %ul#noticeboard
-    %li= @message
+    %li= message
 
-%form(action='/login' method='post')
+%form(action='/login' method='post' id='login-form')
   %fieldset
     %ol
-      %li
+      %li#username-field
         %label(for='username') Username
         %input(type='text' name='username' id='username' size='30')
-      %li
+      %li#password-field
         %label(for='password') Password
         %input(type='password' name='password' id='password' size='30')
   - if params['service']
     %input{:type => 'hidden', :name => 'service', :value => params['service']}
   - if params['warn']
     %input{:type => 'hidden', :name => 'warn', :value => 'true'}
-  %input{:type => 'hidden', :name => 'lt', :value => lt}
-  %input(type='submit' value='Sign In')
+  %input{:type => 'hidden', :name => 'lt', :value => login_ticket}
+  %input(type='submit' value='Sign In' id='submit' data-disable_with='Signing In...')
