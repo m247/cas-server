@@ -10,3 +10,4 @@ error:
     renew: The ticket %1 provided was not granted by credential submission
 login:
   redirect: Successfully Signed In
+  success: You are logged in as %1
