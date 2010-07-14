@@ -43,6 +43,12 @@ module CASServer
       @authenticators
     end
 
+    def trust_authenticators(&blk)
+      @trust_authenticators ||= AuthenticatorConf.new
+      @trust_authenticators.instance_eval(&blk) if blk
+      @trust_authenticators
+    end
+
     class AuthenticatorConf
       instance_methods.each { |m| undef_method(m.to_sym) unless %w(
           __send__ __id__ send class inspect instance_eval

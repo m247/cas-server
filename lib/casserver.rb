@@ -41,7 +41,7 @@ module CASServer
     @authenticators ||= Authenticator::Group.new(configuration.authenticators.set)
   end
   def self.trust_authenticators
-    []
+    @trust_authenticators ||= Authenticator::Group.new(configuration.trust_authenticators.set)
   end
 end
 
