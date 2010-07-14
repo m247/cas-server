@@ -33,7 +33,7 @@ module CASServer
       def authenticate(user, pass, service = nil, request = nil)
         results = @db.select(@sql, user, crypted_password(pass))
 
-        return false if results.length != 1
+        return nil if results.length != 1
         record = results.first
 
         Account.new(user) do |extra|

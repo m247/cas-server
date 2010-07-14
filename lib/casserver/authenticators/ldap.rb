@@ -78,9 +78,8 @@ module CASServer
           preauth!
 
           filter = auth_filter(username)
-          return false unless @conn.bind_as(:password => password, :filter => filter)
-
-          yield @conn.search(:filter => filter).first
+          return nil unless @conn.bind_as(:password => password, :filter => filter)
+          return yield @conn.search(:filter => filter).first
         end
         def auth_filter(username)
           f = Net::LDAP::Filter.eq(@options[:user_attr], @options[:user_prefix] + username)
