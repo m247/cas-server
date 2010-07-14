@@ -16,7 +16,6 @@ module CASServer
       def initialize(options)
         options = self.class.defaults.merge(options)
         db_opts = options.delete(:database)
-        # db_opts[:user] = db_opts.delete(:username)
 
         raise ArgumentError, "invalid table name" if options[:users_table].index(/;'\./)
 
