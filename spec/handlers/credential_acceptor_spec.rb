@@ -24,15 +24,19 @@ module CASServer
       describe "#call" do
         before(:each) do
           @app = double('Sinatra::Base app')
+          @logger = double('Logger')
           @params = {'lt' => 'LT-TESTING', 'username' => 'test', 'password' => 'testing'}
           @request = double('Test Request')
           @account = double('Test Account')
           @authenticator = double('Test Authenticator')
 
+          @app.stub(:logger).and_return(@logger)
           @app.stub(:params).and_return(@params)
           @app.stub(:request).and_return(@request)
           CASServer.stub!(:authenticators).and_return([@authenticator])
           CASServer.stub!(:trust_authenticators).and_return([])
+
+          @logger.as_null_object
 
           @account.stub(:username).and_return('test')
           @account.stub(:extra).and_return({})
