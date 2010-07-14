@@ -83,6 +83,7 @@ module CASServer
         @params = app.params
 
         acct = if username_password_login? && LoginTicket.valid?(params['lt'])
+          params['username'] = params['username'].downcase if CASServer.configuration.lowercase_usernames?
           CASServer.authenticators.detect do |source|
             r = source.authenticate(params['username'], params['password'], params['service'], app.request)
             break r unless r.nil?
