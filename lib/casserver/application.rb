@@ -41,6 +41,9 @@ module CASServer
         @ticket_granting_cookie ||=
           TicketGrantingCookie.get(request.cookies['tgt'])
       end
+      def login_ticket
+        LoginTicket.create
+      end
       def current_user
         ticket_granting_cookie.username
       end
@@ -77,7 +80,7 @@ module CASServer
             redirect(url, 303)
           end
         end
-        r.login { |lt| haml :login_form, :locals => {:lt => lt} }
+        r.login { haml :login_form }
         r.logged_in { haml :logged_in }
       end
     end

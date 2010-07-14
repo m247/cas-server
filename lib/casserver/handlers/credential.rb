@@ -28,9 +28,7 @@ module CASServer
       def call(app)
         @params = app.params
         if show_login_form?(app.logged_in?)
-          lt = LoginTicket.new
-          lt.save
-          return @login.call(lt)
+          return @login.call
         else
           if gateway?
             return @gateway.call(params['service'], warn?) unless app.logged_in?
