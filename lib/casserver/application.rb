@@ -2,6 +2,7 @@ require 'sinatra/base'
 require 'sinatra/r18n'
 require 'builder'
 require 'haml'
+require 'sass'
 
 module CASServer
   class Application < Sinatra::Base
@@ -61,6 +62,10 @@ module CASServer
 
     get '/' do
       redirect '/login'
+    end
+    get '/css/:stylesheet.css' do
+      content_type 'text/css', :charset => 'utf-8'
+      sass params[:stylesheet].to_sym
     end
 
     get '/login' do
