@@ -1,8 +1,10 @@
-%h1 You have successfully logged out
+%h1 You have logged out
 %p You may <a href="/login">log in</a> again.
 
 - if @url
   %p
     The application you have just logged out of has provided a link it would
-    like you to follow. Please <a href="#{@url}" rel="nofollow">click here</a>
-    to access <a href="#{@url}" rel="nofollow">#{@url}</a>.
+    like you to follow.
+  %p
+    Please <a href="#{@url}" rel="nofollow">click here</a> to access
+    <a href="#{@url}" rel="nofollow">#{@url}</a>.
