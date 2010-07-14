@@ -89,12 +89,10 @@ module CASServer
           f
         end
         def extract_connection_and_options(options)
-          self.class.defaults.merge(options).inject([{}, {}]) do |m, k, v|
-            if NET_LDAP_INIT_OPTIONS.include?(k)
-              m[0][k] = v
-            else
-              m[1][k] = v
-            end
+          self.class.defaults.merge(options).inject([{}, {}]) do |m,kv|
+            k,v = kv
+            NET_LDAP_INIT_OPTIONS.include?(k) ? m[0][k] = v : m[1][k] = v
+            m
           end
         end
     end
