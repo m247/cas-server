@@ -39,7 +39,7 @@ module CASServer
 
       def self.defaults
         {:port => 389, :filter => '(objectClass=person)', :user_attr => 'cn',
-          :user_prefix => nil, :auth_user => nil, :auth_password => nil }
+          :user_prefix => '', :auth_user => nil, :auth_password => nil }
       end
 
       def initialize(options)
