@@ -33,7 +33,7 @@ module CASServer
         return response.delete_cookie('tgt') if tgc.nil?
 
         response.set_cookie('tgt', :value => tgc.name,
-          :path => request.env['REQUEST_PATH'],
+          :path => '/', #request.env['REQUEST_PATH'],
           :domain => request.env['SERVER_NAME'],
           :secure => request.env['HTTPS'] == 'on', :expires => tgc.expires_at)
       end
