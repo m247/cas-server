@@ -12,8 +12,7 @@ gem 'builder'
 gem 'haml'
 gem 'yajl-ruby',    :require => 'yajl/json_gem'
 gem 'sinatra-r18n', :require => 'sinatra/r18n'
-
-# gem 'fancy-buttons'
+gem 'ruby-net-ldap'
 
 gem 'dm-sqlite-adapter', :require => nil
 gem 'dm-postgres-adapter', :require => nil
