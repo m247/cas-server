@@ -21,7 +21,7 @@ gem 'dm-postgres-adapter', :require => nil
 group :test do
   gem 'rspec',      :require => nil
   gem 'rack-test'
-  gem 'capybara',   :git => "git://github.com/jnicklas/capybara.git"
+  gem 'capybara'
   gem 'launchy'
   gem 'webmock'
 end
