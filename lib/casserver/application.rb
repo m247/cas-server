@@ -102,6 +102,7 @@ module CASServer
         ticket_granting_cookie = nil
       end
 
+      params[:url] ||= params[:destination]    # Ruby CAS Client compatibility fix
       @url = params[:url] if params[:url] =~ /^https?:\/\//
       haml :logged_out
     end
