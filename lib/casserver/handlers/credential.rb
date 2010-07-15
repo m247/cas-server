@@ -85,13 +85,13 @@ module CASServer
         acct = if username_password_login? && LoginTicket.valid?(params['lt'])
           params['username'] = params['username'].downcase if CASServer.configuration.lowercase_usernames?
           CASServer.authenticators.detect do |source|
-            app.logger.info("Authenticating #{params['username']} with #{source.class}")
+            $LOG.info("Authenticating #{params['username']} with #{source.class}")
             r = source.authenticate(params['username'], params['password'], params['service'], app.request)
             break r unless r.nil?
           end
         else
           CASServer.trust_authenticators.detect do |source|
-            app.logger.info("Authenticating request with #{source.class}")
+            $LOG.info("Authenticating request with #{source.class}")
             r = source.authenticate(params['service'], app.request)
             break r unless r.nil?
           end

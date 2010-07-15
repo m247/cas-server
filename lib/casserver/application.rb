@@ -20,9 +20,6 @@ module CASServer
     end
 
     helpers do
-      def logger
-        LOGGER
-      end
       def logged_in?
         ticket_granting_cookie && !ticket_granting_cookie.expired?
       end

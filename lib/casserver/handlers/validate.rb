@@ -65,7 +65,7 @@ module CASServer
         rescue CASError => e
           @failure.call(e.message)
         rescue Exception => e
-          app.logger.warn("#{self.class}: #{e.message}\n#{e.backtrace.join("\n")}")
+          $LOG.warn("#{self.class}: #{e.message}\n#{e.backtrace.join("\n")}")
           @failure.call('INTERNAL_ERROR')
         end
       end
