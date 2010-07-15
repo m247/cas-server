@@ -33,15 +33,27 @@ module CASServer
           if gateway?
             return @gateway.call(params['service'], warn?) unless app.logged_in?
 
-            st = ServiceTicket.new(:service => params['service'],
-              :username => app.ticket_granting_cookie.username)
-            st.save
+            st = new_service_ticket(app)
             return @gateway.call(st.url, warn?)
           end
+
+          # BEGIN NON-STANDARD FEATURE
+          if service? && app.logged_in?
+            st = new_service_ticket(app)
+            return @gateway.call(st.url, warn?)
+          end
+          # END NON-STANDARD FEATURE
+
           return @logged_in.call
         end
       end
       private
+        def new_service_ticket(app)
+          st = ServiceTicket.new(:service => params['service'],
+            :username => app.ticket_granting_cookie.username)
+          st.save
+          st
+        end
         def params
           @params
         end
