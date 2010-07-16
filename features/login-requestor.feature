@@ -23,10 +23,17 @@ Feature: /login as credential requestor
       | service  | http://test.com/redirection |
       | lt       |                             |
 
+	# This particular scenario is not 100% specified in CAS Protocol
+  # Scenario: /login?service=http://test.com/ with a session
+  #   Given I have a single sign on session
+  #   When I visit "/login?service=http://test.com/redirection"
+  #   Then I should see "You are logged in"
+
+	@non-standard
   Scenario: /login?service=http://test.com/ with a session
     Given I have a single sign on session
     When I visit "/login?service=http://test.com/redirection"
-    Then I should see "You are logged in"
+    Then I should be redirected to "http://test.com/redirection" with a service ticket
 
   Scenario: /login?gateway=true&service=http://test.com/redirection without a session
     When I visit "/login?gateway=true&service=http://test.com/redirection"
