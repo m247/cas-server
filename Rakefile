@@ -1,3 +1,5 @@
+require 'cucumber'
+require 'cucumber/rake/task'
 require 'spec/rake/spectask'
 
 task :default => :test
@@ -10,6 +12,14 @@ else
   Spec::Rake::SpecTask.new('spec') do |t|
     t.spec_files = FileList['spec/**/*.rb']
     t.spec_opts = ['-cfp']
+  end
+end
+
+if !defined?(Cucumber)
+  puts "cucumber targets require Cucumber"
+else
+  Cucumber::Rake::Task.new(:features) do |t|
+    t.cucumber_opts = "features --format pretty"
   end
 end
 
