@@ -47,9 +47,14 @@ ul#noticeboard
     span
       float: right
       font-size: 10px
-      text-decoration: underline
-      &:hover
-        cursor: pointer
+      a
+        text-decoration: underline
+    &#logged-in
+      span
+        &:before
+          content: "("
+        &:after
+          content: ")"
 
 h1
   font-family: Georgia, "Times New Roman", Times, serif

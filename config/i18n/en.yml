@@ -8,6 +8,31 @@ error:
     prefix: The ticket %1 provided is not valid
     missing: The ticket %1 does not exist or has expired
     renew: The ticket %1 provided was not granted by credential submission
-login:
-  redirect: Successfully Signed In
-  success: You are logged in as %1
+
+redirect:
+  message: Successfully Signed In
+
+login_form:
+  h1: Central Login
+  username: Username
+  password: Password
+  submit: Sign In
+  disable_with: Signing In...
+  logged_in: You are logged in as %1
+  logout: sign out
+
+layout:
+  title: CAS Server
+
+logged_out:
+  h1: You have logged out
+  message: You may %1 again.
+  login: log in
+  redirect:
+    message: The application you have just logged out of has provided a link it would like you to follow.
+    link: Please <a href="%1" rel="nofollow">click here</a> to access <a href="%1" rel="nofollow">%1</a>.
+    click: click here
+
+redirect:
+  h1: Redirecting You
+  message: Redirecting you to <a href="%1" rel="nofollow">%2</a> shortly.

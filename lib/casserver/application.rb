@@ -78,7 +78,7 @@ module CASServer
         end
         r.login { haml :login_form }
         r.logged_in do
-          haml :login_form, :locals => {:message => t.login.success(current_user)}
+          haml :login_form
         end
       end
     end
@@ -91,7 +91,7 @@ module CASServer
         end
         a.failure { |reason| haml :login_form, :locals => {:message => reason} }
         a.success do
-          haml :login_form, :locals => {:message => t.login.success(current_user)}
+          haml :login_form
         end
       end
     end

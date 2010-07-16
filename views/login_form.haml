@@ -1,21 +1,27 @@
-%h1 Central Login
+%h1= t.login_form.h1
 
-- if defined?(message)
+- if defined?(message) or logged_in?
   %ul#noticeboard
-    %li= message
+    - if logged_in?
+      %li#logged-in
+        = t.login_form.logged_in(current_user)
+        %span
+          %a{:href => '/logout'}= t.login_form.logout
+    - if defined?(message)
+      %li= message
 
 %form(action='/login' method='post' id='login-form')
   %fieldset
     %ol
       %li#username-field
-        %label(for='username') Username
+        %label(for='username')= t.login_form.username
         %input(type='text' name='username' id='username' size='30')
       %li#password-field
-        %label(for='password') Password
+        %label(for='password')= t.login_form.password
         %input(type='password' name='password' id='password' size='30')
   - if params['service']
     %input{:type => 'hidden', :name => 'service', :value => params['service']}
   - if params['warn']
-    %input{:type => 'hidden', :name => 'warn', :value => 'true'}
+    %input(type='hidden' name='warn' value='true')
   %input{:type => 'hidden', :name => 'lt', :value => login_ticket}
-  %input(type='submit' value='Sign In' id='submit' data-disable_with='Signing In...')
+  %input{:type => 'submit', :value => t.login_form.submit, :id => 'submit', 'data-disable_with' => t.login_form.disable_with}

@@ -1,10 +1,6 @@
-%h1 You have logged out
-%p You may <a href="/login">log in</a> again.
+%h1= t.logged_out.h1
+%p= t.logged_out.message('<a href="/login">%s</a>' % t.logged_out.login)
 
 - if @url
-  %p
-    The application you have just logged out of has provided a link it would
-    like you to follow.
-  %p
-    Please <a href="#{@url}" rel="nofollow">click here</a> to access
-    <a href="#{@url}" rel="nofollow">#{@url}</a>.
+  %p= t.logged_out.redirect.message
+  %p= t.logged_out.redirect.link(@url)

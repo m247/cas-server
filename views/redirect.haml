@@ -1,4 +1,4 @@
-%h1 Redirecting You
+%h1 t.redirect.h1
 - if message
   %p= message
-%p Redirecting you to <a href="#{target}" rel="nofollow">#{params['service']}</a> shortly.
+%p= t.redirect.message(target, params['service'])
