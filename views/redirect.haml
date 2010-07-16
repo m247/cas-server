@@ -1,4 +1,4 @@
-%h1 t.redirect.h1
-- if message
+%h1= t.redirect.h1
+- if defined?(message)
   %p= message
 %p= t.redirect.message(target, params['service'])
