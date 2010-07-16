@@ -9,8 +9,8 @@ error:
     missing: The ticket %1 does not exist or has expired
     renew: The ticket %1 provided was not granted by credential submission
 
-redirect:
-  message: Successfully Signed In
+login:
+  redirect: Successfully Signed In
 
 login_form:
   h1: Central Login
