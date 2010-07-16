@@ -10,4 +10,8 @@ CASServer.configuration do
   ssl.ca_file = 'config/cacert.pem'
 end
 
-require File.expand_path("../environments/#{CASServer::Application.environment}", __FILE__)
+begin
+  require File.expand_path("../environments/#{CASServer::Application.environment}", __FILE__)
+rescue LoadError
+  puts "** No environment file for #{CASServer::Application.environment}, have you configured it?"
+end
