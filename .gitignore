@@ -4,3 +4,5 @@ config.yml
 vendor
 sinatra.log
 db
+config/environments/*.rb
+!config/environments/example.rb
