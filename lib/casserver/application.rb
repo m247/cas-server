@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/r18n'
 require 'builder'
+require 'yaml'
 require 'haml'
 require 'sass'
 
@@ -117,11 +118,14 @@ module CASServer
     get '/serviceValidate' do
       content_type 'application/xml', :charset => 'utf-8'
       Validate.service do |s|
-        s.success do |username, pgtiou|
+        s.success do |username, pgtiou, extras|
           builder do |xml|
             xml.cas :serviceResponse, 'xmlns:cas' => 'http://www.yale.edu/tp/cas' do
               xml.cas :authenticationSuccess do
                 xml.cas :user, username
+                extra.each do |key, value|
+                  xml.tag!(key, ((v.kind_of?(String) || v.kind_of?(Numeric)) ? value : xml.cdata!(value.to_yaml)))
+                end
                 if pgtiou
                   xml.cas :proxyGrantingTicket, pgtiou
                 end
@@ -143,11 +147,14 @@ module CASServer
     get '/proxyValidate' do
       content_type 'application/xml', :charset => 'utf-8'
       Validate.proxy do |p|
-        p.success do |username, pgtiou, proxies|
+        p.success do |username, pgtiou, extra, proxies|
           builder do |xml|
             xml.cas :serviceResponse, 'xmlns:cas' => 'http://www.yale.edu/tp/cas' do
               xml.cas :authenticationSuccess do
                 xml.cas :user, username
+                extra.each do |key, value|
+                  xml.tag!(key, ((v.kind_of?(String) || v.kind_of?(Numeric)) ? value : xml.cdata!(value.to_yaml)))
+                end
                 if pgtiou
                   xml.cas :proxyGrantingTicket, pgtiou
                 end
