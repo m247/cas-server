@@ -13,6 +13,7 @@ module CASServer
         if @users[user] == pass
           Account.new(user) do |extra|
             extra[:locked] = locked?(user)
+            merge_fixed_attrs(extra)
           end
         end
       end

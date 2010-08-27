@@ -26,6 +26,8 @@ CASServer.configuration do
   #                         source to check if the account is locked.
   #  +:extra_attributes+    Array of extra fields from the account
   #                         information to return with the Account.
+  #  +:fixed_attributes+    Hash of predefined attributes to include
+  #                         in +:extra_attributes+.
   authenticators do
     # SQL Authenticator Options
     #  +:database+          URI or hash of database connection details.
@@ -40,7 +42,8 @@ CASServer.configuration do
     #   :password_column => 'password',
     #   :crypted_password => 'md5',
     #   :locked => proc { |acct| acct.locked == 1 },
-    #   :extra_attributes => []
+    #   :extra_attributes => [],
+    #   :fixed_attributes => { :admin => true }
     # }
     #
     # LDAP Authenticator Options
