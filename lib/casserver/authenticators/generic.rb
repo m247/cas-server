@@ -6,8 +6,9 @@ module CASServer
       end
       protected
         def extra_attrs
-          return [] if @options[:extra].nil?
-          attrs = @options[:extra].kind_of?(Array) ? @options[:extra] : @options[:extra].split(',')
+          return [] if @options[:extra_attributes].nil?
+          attrs = @options[:extra_attributes].kind_of?(Array) ?
+            @options[:extra_attributes] : @options[:extra_attributes].split(',')
           attrs.map(&:strip)
         end
         def merge_fixed_attrs(extras)
