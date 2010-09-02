@@ -118,7 +118,7 @@ module CASServer
     get '/serviceValidate' do
       content_type 'application/xml', :charset => 'utf-8'
       Validate.service do |s|
-        s.success do |username, pgtiou, extras|
+        s.success do |username, pgtiou, extra|
           builder do |xml|
             xml.cas :serviceResponse, 'xmlns:cas' => 'http://www.yale.edu/tp/cas' do
               xml.cas :authenticationSuccess do
