@@ -75,7 +75,11 @@ module CASServer
         end
         def do_success(t)
           pgt_iou = t.proxy_granting_ticket.proxy_granting_ticket_iou rescue nil
-          @success.call(t.username, pgt_iou, t.granted_by_cookie.extra)
+          @success.call(t.username, pgt_iou, extras(t))
+        end
+        def extras(t)
+          return [] if t.granted_by_cookie.nil?
+          t.granted_by_cookie.extra
         end
         def params
           @params
@@ -127,7 +131,7 @@ module CASServer
         def do_success(t)
           pgt_iou = t.proxy_granting_ticket.proxy_granting_ticket_iou rescue nil
           pgt_proxy = t.granted_by_ticket.proxy rescue nil
-          @success.call(t.username, pgt_iou, t.granted_by_cookie.extra, Array(pgt_proxy))
+          @success.call(t.username, pgt_iou, extras(t), Array(pgt_proxy))
         end
     end
   end

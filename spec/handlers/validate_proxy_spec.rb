@@ -44,6 +44,7 @@ module CASServer
             @ticket.stub(:username).and_return('test')
             @ticket.stub(:proxy_granting_ticket).and_return(nil)
             @ticket.stub(:granted_by_ticket).and_return(nil)
+            @ticket.stub(:granted_by_cookie).and_return(nil)
             ProxyTicket.stub!(:validate!).and_return(@ticket)
           end
           it "should return success" do

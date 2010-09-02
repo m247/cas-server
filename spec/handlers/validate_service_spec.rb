@@ -40,9 +40,12 @@ module CASServer
         end
         describe "valid service ticket" do
           before(:each) do
+            @cookie = double('TicketGrantingCookie')
+            @cookie.stub(:extra).and_return({:other => 'testing'})
             @ticket = double('ServiceTicket')
             @ticket.stub(:username).and_return('test')
             @ticket.stub(:proxy_granting_ticket).and_return(nil)
+            @ticket.stub(:granted_by_cookie).and_return(@cookie)
             ServiceTicket.stub!(:validate!).and_return(@ticket)
           end
           it "should return success" do
