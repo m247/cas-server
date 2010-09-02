@@ -36,13 +36,12 @@ module CASServer
         return nil if results.length != 1
         record = results.first
 
-        Account.new(user) do |extra|
+        Account.new(user, @options[:fixed_attributes] || {}) do |extra|
           extra_attrs.each do |attr_name|
             extra[attr_name] = record.send(attr_name.to_sym) if record.respond_to?(attr_name.to_sym)
           end
 
           extra[:locked] = locked?(record)
-          merge_fixed_attrs(extra)
         end
       end
 

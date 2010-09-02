@@ -4,6 +4,7 @@ module CASServer
       def initialize(options)
         @users = {}
         @locks = []
+        @options = options
 
         options[:users].each do |user|
           add(*user.split(":", 2))
@@ -11,9 +12,8 @@ module CASServer
       end
       def authenticate(user, pass, service = nil, request = nil)
         if @users[user] == pass
-          Account.new(user) do |extra|
+          Account.new(user, @options[:fixed_attributes] || {}) do |extra|
             extra[:locked] = locked?(user)
-            merge_fixed_attrs(extra)
           end
         end
       end

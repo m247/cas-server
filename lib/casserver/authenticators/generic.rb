@@ -11,10 +11,6 @@ module CASServer
             @options[:extra_attributes] : @options[:extra_attributes].split(',')
           attrs.map(&:strip)
         end
-        def merge_fixed_attrs(extras)
-          return extras if @options[:fixed_attributes].nil?
-          @options[:fixed_attributes].merge(extras)
-        end
         def locked?(record)
           return false unless @options.has_key?(:locked)
           @options[:locked].call(record) rescue true  # Fail safe, if there is a locked proc and it

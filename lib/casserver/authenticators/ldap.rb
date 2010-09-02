@@ -50,7 +50,7 @@ module CASServer
       def authenticate(user, pass, service = nil, request = nil)
         begin
           bind_with_username(user, pass) do |record|
-            Account.new(user) do |extra|
+            Account.new(user, @options[:fixed_attributes] || {}) do |extra|
               extra_attrs.each do |attr_name|
                 unless record[attr_name].empty?
                   if record[attr_name].length == 1
@@ -62,7 +62,6 @@ module CASServer
               end
 
               extra[:locked] = locked?(record)
-              merge_fixed_attrs(extra)
             end
           end
         rescue Net::LDAP::LdapError => e
