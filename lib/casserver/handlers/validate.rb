@@ -78,7 +78,7 @@ module CASServer
           @success.call(t.username, pgt_iou, extras(t))
         end
         def extras(t)
-          return [] if t.granted_by_cookie.nil?
+          return {} if t.granted_by_cookie.nil?
           t.granted_by_cookie.extra
         end
         def params

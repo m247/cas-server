@@ -51,6 +51,10 @@ module CASServer
           it "should return success" do
             @service.call(@app).should == 'success'
           end
+          it "should include the extras" do
+            @service.success { |user, pgt, extra| extra.to_a.join(" ") }
+            @service.call(@app).should == 'other testing'
+          end
         end
       end
     end
