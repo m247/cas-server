@@ -51,6 +51,7 @@ module CASServer
         def new_service_ticket(app)
           st = ServiceTicket.new(:service => params['service'],
             :username => app.ticket_granting_cookie.username)
+          st.granted_by_cookie = app.ticket_granting_cookie
           st.save
           st
         end
