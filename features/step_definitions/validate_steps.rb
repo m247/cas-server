@@ -1,12 +1,14 @@
 Given /^I have a valid service ticket for "([^"]*)"$/ do |url|
-  @service_ticket = CASServer::ServiceTicket.new(:username => 'testing', :service => url)
+  @service_ticket = create_service_ticket(url)
+end
+
+Given /^the service ticket was granted by credentials$/ do
+  @service_ticket.granted_by_credentials = true
   @service_ticket.save
 end
 
 Given /^the service ticket was granted by a cookie$/ do
-  @granting_cookie = CASServer::TicketGrantingCookie.new(:username => 'testing')
-  @granting_cookie.save
-  @service_ticket.granted_by_cookie = @granting_cookie
+  @service_ticket.granted_by_credentials = false
   @service_ticket.save
 end
 

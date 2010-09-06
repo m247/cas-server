@@ -10,24 +10,11 @@ Given /^an invalid proxy ticket$/ do
 end
 
 Given /^I have a proxy granting ticket for proxy "([^"]*)"$/ do |proxy|
-  if @service_ticket.nil?
-    Given "I have a valid service ticket for \"http://test.com\""
-  end
-
-  @proxy_granting_ticket = CASServer::ProxyGrantingTicket.new(:proxy => proxy)
-  @proxy_granting_ticket.save
-  @service_ticket.proxy_granting_ticket = @proxy_granting_ticket
-  @service_ticket.save
+  @proxy_granting_ticket = create_proxy_granting_ticket('http://test.com', 'https://test-proxy.com')
 end
 
 Given /^I have a valid proxy ticket for "([^"]*)" with proxy "([^"]*)"$/ do |url, proxy|
-  Given "I have a valid service ticket for \"#{url}\""
-  Given "I have a proxy granting ticket for proxy \"#{proxy}\""
-
-  @proxy_ticket = CASServer::ProxyTicket.new(:service => url,
-    :username => @proxy_granting_ticket.service_ticket.username)
-  @proxy_ticket.granted_by_ticket = @proxy_granting_ticket
-  @proxy_ticket.save
+  @proxy_ticket = create_proxy_ticket(url, proxy)
 end
 
 When /^I proxyValidate the proxy ticket for "([^"]*)"$/ do |url|

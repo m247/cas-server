@@ -1,14 +1,9 @@
-Given /^I have a single sign on session$/ do
-  Given %<a user with credentials "testing" and password "testing">
-
-  visit "/login"
-  fill_in "username", :with => 'testing'
-  fill_in "password", :with => 'testing'
-  click_button "Sign In"
+Given /^I have a single sign on session(?: for service "([^\"]*)")?$/ do |service|
+  @ticket_granting_cookie = create_session("testing", "testing", service)
 end
 
 Given /^a user with credentials "([^\"]*)" and password "([^\"]*)"$/ do |user, pass|
-  CASServer.authenticators.first.add(user, pass)
+  add_test_user(user, pass)
 end
 
 When /^I visit "([^"]*)"$/ do |url|
@@ -31,7 +26,6 @@ Then /^I should be redirected to "([^"]*)" without a service ticket$/ do |url|
   Then "I should see \"#{url}\""
   Then "I should not see \"ST-\""
 end
-
 
 Then /^I should see fields:$/ do |table|
   table.raw.each do |field, _|
