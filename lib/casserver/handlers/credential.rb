@@ -118,7 +118,8 @@ module CASServer
         app.ticket_granting_cookie.save
 
         if has_service?
-          st = ServiceTicket.new(:username => acct.username, :service => params['service'])
+          st = ServiceTicket.new(:username => acct.username, :service => params['service'],
+            :granted_by_credentials => true, :granted_by_cookie => app.ticket_granting_cookie)
           st.save
           return @redirect.call(st.url, should_warn?)
         end

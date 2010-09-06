@@ -73,7 +73,7 @@ module CASServer
               @tgc = double('Ticket Granting Cookie')
               @tgc.should_receive(:save).and_return(true)
               @app.should_receive(:ticket_granting_cookie=)
-              @app.should_receive(:ticket_granting_cookie).and_return(@tgc)
+              @app.should_receive(:ticket_granting_cookie).at_least(:once).and_return(@tgc)
             end
             it "should result in success" do
               @acceptor.call(@app).should == 'success'
@@ -81,6 +81,14 @@ module CASServer
             describe "service set" do
               before(:each) do
                 @params['service'] = 'http://test.com/'
+
+                @st = double('Service Ticket')
+                @st_name = ServiceTicket.generate
+                @st.should_receive(:save).and_return(true)
+                @st.stub(:granted_by_cookie=)
+                @st.stub(:granted_by_cookie).and_return(@tgc)
+                @st.stub(:url).and_return("http://test.com/?ticket=#{@st_name}")
+                ServiceTicket.stub(:new).and_return(@st)
               end
               it "should result in redirect" do
                 @acceptor.call(@app).should == 'redirect'
