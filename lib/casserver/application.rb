@@ -124,7 +124,13 @@ module CASServer
               xml.cas :authenticationSuccess do
                 xml.cas :user, username
                 extra.each do |key, value|
-                  xml.tag!(key, ((v.kind_of?(String) || v.kind_of?(Numeric)) ? value : xml.cdata!(value.to_yaml)))
+                  if value.kind_of?(String) || value.kind_of?(Numeric)
+                    xml.tag!(key, value)
+                  else
+                    xml.tag!(key) do
+                      xml.cdata!(value.to_yaml)
+                    end
+                  end
                 end
                 if pgtiou
                   xml.cas :proxyGrantingTicket, pgtiou
@@ -153,7 +159,13 @@ module CASServer
               xml.cas :authenticationSuccess do
                 xml.cas :user, username
                 extra.each do |key, value|
-                  xml.tag!(key, ((v.kind_of?(String) || v.kind_of?(Numeric)) ? value : xml.cdata!(value.to_yaml)))
+                  if value.kind_of?(String) || value.kind_of?(Numeric)
+                    xml.tag!(key, value)
+                  else
+                    xml.tag!(key) do
+                      xml.cdata!(value.to_yaml)
+                    end
+                  end
                 end
                 if pgtiou
                   xml.cas :proxyGrantingTicket, pgtiou
