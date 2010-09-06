@@ -19,6 +19,7 @@ Feature: /validate
 
   Scenario: /validate?renew=true credential granted service
     Given I have a valid service ticket for "http://test.com/"
+    And the service ticket was granted by credentials
     When I validate the service ticket for "http://test.com/" with the renew option
     Then I should see "yes"
     And I should see "testing"
