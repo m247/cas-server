@@ -195,11 +195,11 @@ module CASServer
     get '/proxy' do
       content_type 'application/xml', :charset => 'utf-8'
       Proxy.grant do |g|
-        g.success do |pgt|
+        g.success do |pt|
           builder do |xml|
             xml.cas :serviceResponse, 'xmlns:cas' => 'http://www.yale.edu/tp/cas' do
               xml.cas :proxySuccess do
-                xml.cas :proxyTicket, pgt
+                xml.cas :proxyTicket, pt
               end
             end
           end
