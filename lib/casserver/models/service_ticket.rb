@@ -42,6 +42,7 @@ module CASServer
     property :type, Discriminator
     property :service, String, :length => 255, :required => true
     property :username, String, :length => 255, :required => true
+    property :granted_by_credentials, Boolean, :default => false
 
     has 1, :proxy_granting_ticket
     belongs_to :granted_by_cookie, :model => 'TicketGrantingCookie', :required => false
@@ -56,10 +57,10 @@ module CASServer
       [service, url_param].join(url_joiner)
     end
     def granted_by_cookie?
-      ! self.granted_by_cookie.nil?
+      ! self.granted_by_credentials?
     end
     def granted_by_credentials?
-      ! granted_by_cookie?
+      self.granted_by_credentials
     end
     protected
       def url_param
