@@ -27,6 +27,7 @@ module CASServer
 
           pt = ProxyTicket.new(:username => pgt.service_ticket.username,
             :service => params['targetService'])
+          pt.granted_by_cookie = pgt.service_ticket.granted_by_cookie
           pt.granted_by_ticket = pgt
           pt.save
           @success.call(pt.name)
