@@ -6,6 +6,7 @@ Feature: /proxyValidate
     When I proxyValidate the proxy ticket for "http://test.com/"
     Then I should have xpath "//cas:authenticationSuccess"
     And I should have xpath "//cas:user" with text "testing"
+    And I should have xpath "//mode" with text "testing"
     And I should have xpath "//cas:proxy" with text "https://test-proxy.com/"
 
   Scenario: /proxyValidate with invalid ticket

@@ -9,6 +9,7 @@ Feature: /serviceValidate
     When I serviceValidate the service ticket for "http://test.com/"
     Then I should have xpath "//cas:authenticationSuccess"
     And I should have xpath "//cas:user" with text "testing"
+    And I should have xpath "//mode" with text "testing"
     And I should not have xpath "//cas:proxyGrantingTicket"
 
   Scenario: /serviceValidate with invalid ticket
