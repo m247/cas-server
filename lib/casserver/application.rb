@@ -61,7 +61,7 @@ module CASServer
     end
 
     get '/' do
-      redirect '/login'
+      redirect "/login#{request.query_string ? "?" + request.query_string : nil}"
     end
     get '/css/:stylesheet.css' do
       content_type 'text/css', :charset => 'utf-8'
