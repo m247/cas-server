@@ -59,12 +59,15 @@ module CASServer
               @pt = double('ProxyTicket')
               @st = double('ServiceTicket')
               @pgt = double('ProxyGrantingTicket')
+              @tgc = double('TicketGrantingCookie')
 
               @pt.stub(:name).and_return('PT-TEST')
               @pt.stub(:granted_by_ticket=).with(@pgt)
+              @pt.stub(:granted_by_cookie=).with(@tgc)
               @pt.stub(:save).and_return(true)
 
               @st.stub(:username).and_return('test')
+              @st.stub(:granted_by_cookie).and_return(@tgc)
               @pgt.stub(:service_ticket).and_return(@st)
 
               ProxyTicket.stub!(:new).and_return(@pt)
