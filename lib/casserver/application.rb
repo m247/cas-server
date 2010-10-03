@@ -68,6 +68,13 @@ module CASServer
       sass params[:stylesheet].to_sym
     end
 
+    get '/loginTicket' do
+      text login_ticket.name
+    end
+    post '/loginTicket' do
+      text loginTicket.name
+    end
+
     get '/login' do
       Credential.requestor do |r|
         r.gateway do |url, warn|
