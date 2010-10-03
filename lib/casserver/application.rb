@@ -39,7 +39,7 @@ module CASServer
           TicketGrantingCookie.get(request.cookies['tgt'])
       end
       def login_ticket
-        LoginTicket.create
+        @login_ticket ||= LoginTicket.create
       end
       def current_user
         ticket_granting_cookie.username
@@ -84,7 +84,10 @@ module CASServer
             redirect(url, 303)
           end
         end
-        r.login { haml :login_form }
+        r.login do
+          headers 'X-LoginTicket' => login_ticket.name
+          haml :login_form
+        end
         r.logged_in do
           haml :login_form
         end
