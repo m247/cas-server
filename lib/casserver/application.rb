@@ -85,7 +85,7 @@ module CASServer
           end
         end
         r.login do
-          headers 'X-LoginTicket' => login_ticket.name
+          headers 'X-Login-Ticket' => login_ticket.name
           haml :login_form
         end
         r.logged_in do
