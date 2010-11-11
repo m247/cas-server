@@ -135,8 +135,17 @@ module CASServer
         def should_warn?
           params['warn'] && params['warn'] != ''
         end
+        def has_username?
+          params['username'] && params['username'] != ''
+        end
+        def has_password?
+          params['password'] && params['password'] != ''
+        end
+        def has_lt?
+          params['lt'] && params['lt'] != ''
+        end
         def username_password_login?
-          params['username'] && params['password'] && params['lt']
+          has_username? && has_password? && has_lt?
         end
     end
   end
