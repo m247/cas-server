@@ -100,7 +100,11 @@ module CASServer
           warn ? haml(:redirect, :locals => {:target => url, :message => t.login.redirect}) :
             redirect(url, 303)
         end
-        a.failure { |reason| haml :login_form, :locals => {:message => reason} }
+        a.failure do |reason|
+          haml :login_form, :locals => {
+            :message => reason,
+            :forgot_password_url => CASServer.configuration.forgot_password_url }
+        end
         a.success do
           haml :login_form
         end

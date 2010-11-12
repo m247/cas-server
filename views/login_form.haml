@@ -25,3 +25,6 @@
     %input(type='hidden' name='warn' value='true')
   %input{:type => 'hidden', :name => 'lt', :value => login_ticket}
   %input{:type => 'submit', :value => t.login_form.submit, :id => 'submit', 'data-disable_with' => t.login_form.disable_with}
+
+- if defined?(forgot_password_url)
+  %p Forgot your password?<br>Try <a href="#{forgot_password_url}">resetting your password</a>.

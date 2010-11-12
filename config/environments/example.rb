@@ -15,6 +15,9 @@ CASServer.configuration do
   # Should usernames be converted to lowercase? 
   # use_lowecase_usernames
 
+  # Give users a link to reset their password, enable this
+  # forgot_password_url 'http://accounts.example.com/password-reset'
+
   # Configure user/password based authenticators
   # Each call to sql, ldap or active_directory will append another
   # authenticator to the list. Authenticators are added and checked

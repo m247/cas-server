@@ -35,6 +35,9 @@ module CASServer
     def lowercase_usernames?
       @lowercase_usernames || false
     end
+    def forgot_password_url(opt = nil)
+      @forgot_password_url ||= opt
+    end
 
     # Authenticators setup
     def authenticators(&blk)
