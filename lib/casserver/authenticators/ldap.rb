@@ -83,7 +83,7 @@ module CASServer
         end
         def auth_filter(username)
           f = Net::LDAP::Filter.eq(@options[:user_attr], @options[:user_prefix] + username)
-          unless @options[:filter].nil? || @options[:filter].blank?
+          unless @options[:filter].nil? || @options[:filter] == ''
             f &= Net::LDAP::Filter.construct(@options[:filter])
           end
           f
