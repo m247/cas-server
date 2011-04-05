@@ -86,7 +86,8 @@ module CASServer
         end
         r.login do
           headers 'X-Login-Ticket' => login_ticket.name
-          haml :login_form
+          haml :login_form, :locals => {
+            :forgot_password_url => CASServer.configuration.forgot_password_url }
         end
         r.logged_in do
           haml :login_form
