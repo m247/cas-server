@@ -11,6 +11,7 @@ module CASServer
 
     configure do
       set :haml, :format => :html5
+      set :sass, :cache_location => './tmp/sass-cache'
       set :environment, (ENV['RACK_ENV'] || :development)
     end
 
