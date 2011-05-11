@@ -15,6 +15,10 @@ gem 'yajl-ruby',    :require => 'yajl/json_gem'
 gem 'sinatra-r18n', :require => 'sinatra/r18n'
 gem 'ruby-net-ldap'
 
+gem 'data_objects', '0.10.3'
+gem 'do_postgres',  '0.10.3'
+gem 'do_sqlite3',   '0.10.3'
+
 gem 'dm-sqlite-adapter', :require => nil
 gem 'dm-postgres-adapter', :require => nil
 
