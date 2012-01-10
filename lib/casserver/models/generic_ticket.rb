@@ -27,7 +27,7 @@ module CASServer
         extra = ''
         byte_count = (TICKET_LENGTH / 2) - (prefix.length / 2.0).ceil
         difference = TICKET_LENGTH - prefix.length - (byte_count * 2)
-        difference.times { extra << (rand(26) + ?a).chr }
+        difference.times { extra << (rand(26) + "a".bytes.first).chr }
 
         prefix + extra + SecureRandom.hex(byte_count)
       end
